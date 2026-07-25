@@ -5,15 +5,36 @@ As versions are released, they are moved to release notes.
 
 ## Versions
 
-### 2.0.0-dev.1
+### 1.0.0-dev.1
 
-- Completion of SRS
-- Layout of version-plans for each feature
-
-### 2.0.0-dev.3
-
+- Completion of high level SRS
+- Layout of version-plans for near feature
 - Completion of high level SDD, including executable & library plans.
+- Layout of crates
 
-### 2.0.0-dev.3
+### 1.0.0-dev.2
 
-- 
+- Nicandra-Core
+    - Runtime runs the engine, brings up window, can be quit.
+    - Stage system, can clear color
+- Nicandra-Visual
+    - Basic single color clear
+- Nicandra-Math
+    - Random library brought in, picks a random color
+
+### 1.0.0-dev.3
+
+- Nicandra-World
+    - Entity system set up
+    - Verb system set up
+- Nicandra-Input
+    - Keyboard Recognized
+    - Mouse Recognized
+    - Quits on ESC
+    - Prints key or mouse
+    - Adjusts clear color based on keys
+
+### 1.0.0-dev.4
+
+- Nicandra-Visual
+    - Hello Triangle
