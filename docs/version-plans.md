@@ -10,10 +10,10 @@ As versions are released, they are moved to release notes.
 - Completion of high level SRS
 - Layout of version-plans for near feature
 - Completion of high level SDD, including executable & library plans.
-- Layout of crates
 
 ### 1.0.0-dev.2
 
+- Layout of crates
 - Nicandra-Core
     - Runtime runs the engine, brings up window, can be quit.
     - Stage system, can clear color

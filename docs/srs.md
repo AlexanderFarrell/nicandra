@@ -2,13 +2,23 @@
 
 ## Executive Summary
 
-Nicandra is a lightweight, batteries-included game and application engine in Rust. 
+Nicandra Engine lets you build native apps and games, with tons of helpful building blocks built in. It unifies 
+application and game development to provide the benefits of both: graphics, simulation, and user interface
+power.
 
-## Features
+Nicandra Engine is named after a mysterious plant with nice purple flowers and lantern like structures 
+protecting their berries (don't eat them). [It's sometimes a weed](https://en.wikipedia.org/wiki/Nicandra_physalodes#/media/File:Nicandra_physalodes_plant.jpg), able to grow in a wide variety of conditions,
+and yet still produce beautiful flowers. I'd like this engine to similarly run on various platforms, be resilient,
+be efficient, and allow apps and games to bloom.
 
-- Build native desktop applications in Rust or Lua.
-- Build 2D or 3D games
-- Wide library for networking
+## Purpose
+
+When you think of building apps and games... it can get
+complicated. There's tons and tons of different tools, 
+frameworks, many requiring large amounts of scaffolding.
+
+I just want a nice tool to make fun games, or nice
+desktop applications quickly and simply. 
 
 ## General Feature Inventory
 
@@ -211,8 +221,17 @@ This is an outline of features needed by the engine, followed by a priority:
         - 4.3.2 iOS/iPadOS - P3
     - 4.4 Headless Server - P1
 
-
 # Policies
+
+## Development Flow
+
+- Features to build will be in [Version Plans](./version-plans.md). And completed versions will be in [Release Notes](./release-notes.md).
+- For order, each version is to have a video doing:
+    1. A demo if applicable (to validate frequently)
+    2. Discussion of features added (non-technical)
+    3. Technical discussion
+- Apps and games will use Nicandra once the engine gains the needed features
+- Demos 
 
 ## AI Policy
 
@@ -221,8 +240,30 @@ not using them except for these instances:
 
 1. Research - To help find websites, resources, information, etc. on topics.
 2. Debugging - For very niche issues, as its good at cutting down time here.
-3. Additional Testing - For creating additional tests for niche situations which might not have been thought of.
-4. Additional Requirements - Because it's good at identifying missing things which might be missed (accessibility, etc.)
+3. Adversarial Validation - AI is good at seeing gaps in testing and requirements. Did I properly do accessibility? Are there edge cases I'm not thinking of for a unit test?
 
-Otherwise, it will be avoided for code generation. I considered refactoring as a use-case;
-this is possible but will be explicitly added before doing so. 
+Otherwise, AI is **not** to be used for code generation. 
+This is because:
+
+1. Conceptual Integrity is important. 
+2. I want to write the code.
+3. I'm not in a rush.
+
+## Documentation
+
+Also in development. Including this document. All of this
+is living documentation and I may move things around as 
+needed,
+
+## Technical Discussion
+
+Some of my other projects are tutorials walking through
+each thing. Here, I'd rather zoom into specific more
+difficult topics, and overall architecture, rather than
+walking through every line of code.
+
+I think this will:
+
+1. Be more efficient
+2. Be more focused
+3. Be more beneficial for anyone following
