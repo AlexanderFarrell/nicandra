@@ -1,5 +1,6 @@
+#include <app/app.hpp>
 #include <nicandra.hpp>
 
 int main() {
-    test_engine();
+    Nicandra::start();
 }
