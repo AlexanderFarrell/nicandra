@@ -1,0 +1,7 @@
+/.cache/
+/bin/
+/build/
+/compile_commands.json
+/.vscode/
+**/node_modules/
+**/.DS_Store

@@ -1,14 +1,28 @@
-# Software Requirement Specification
+# Nicandra Specification
 
 ## Executive Summary
 
-Nicandra is a lightweight, batteries-included game and application engine in Rust. 
+Nicandra is **one tool to build apps, games and simulations**. This synergy brings benefits of each: graphics, simulation, and user interface power.
 
-## Features
+It's named after a mysterious plant with nice purple flowers and lantern-like structures 
+protecting their berries (don't eat them). [It's sometimes a weed](https://en.wikipedia.org/wiki/Nicandra_physalodes#/media/File:Nicandra_physalodes_plant.jpg), producing beautiful flowers even in difficult environments. Similarly, I'd like my projects to run well across various environments.
 
-- Build native desktop applications in Rust or Lua.
-- Build 2D or 3D games
-- Wide library for networking
+This is a fun, personal project for me.
+
+## Purpose
+
+Less fragmentation, more synergy. 
+
+I want to create loads of various projects without switching between various frameworks, libraries, engines, etc. For example:
+
+- 📝 My own word processor or writing tool.
+- 📊 A spreadsheet program with Lua scripts
+- 🏝️ Island survival game
+- ⚔️ Role playing game
+- ✅ Next version of my planner.
+- ⛏️ Creative tools to edit maps, build stories, etc.
+
+I want to blur the lines between app, game and simulation. Apps frequently use 3D graphics. Games sometimes require rich UI. 
 
 ## General Feature Inventory
 
@@ -211,8 +225,26 @@ This is an outline of features needed by the engine, followed by a priority:
         - 4.3.2 iOS/iPadOS - P3
     - 4.4 Headless Server - P1
 
-
 # Policies
+
+## Work in Public
+
+Reasons:
+
+- 🍰 I'd like to take you along the journey. 
+- 📚 I can learn from you, and maybe you can learn from me. 
+- ✅ I can document my process for accountability.
+- 🌍 Open source so other people can use it.
+
+## Development Flow
+
+- Features to build will be in [Version Plans](./version-plans.md). And completed versions will be in [Release Notes](./release-notes.md).
+- For order, each version is to have a video doing:
+    1. A demo if applicable (to validate frequently)
+    2. Discussion of features added (non-technical)
+    3. Technical discussion
+- Apps and games will use Nicandra once the engine gains the needed features
+- Demos 
 
 ## AI Policy
 
@@ -221,8 +253,34 @@ not using them except for these instances:
 
 1. Research - To help find websites, resources, information, etc. on topics.
 2. Debugging - For very niche issues, as its good at cutting down time here.
-3. Additional Testing - For creating additional tests for niche situations which might not have been thought of.
-4. Additional Requirements - Because it's good at identifying missing things which might be missed (accessibility, etc.)
+3. Adversarial Testing - AI is good at seeing gaps in testing and requirements. Did I properly do accessibility? Are there edge cases I'm not thinking of for a unit test?
 
-Otherwise, it will be avoided for code generation. I considered refactoring as a use-case;
-this is possible but will be explicitly added before doing so. 
+Otherwise, AI is **not** to be used for code generation. 
+This is because:
+
+1. Conceptual Integrity is important. 
+2. I want to write the code.
+3. I'm not in a rush.
+
+## Documentation
+
+Also in development. Including this document. All of this
+is living documentation and I may move things around as 
+needed,
+
+## Technical Discussion
+
+Some of my other projects are tutorials walking through
+each thing. Here, I'd rather zoom into specific more
+difficult topics, and overall architecture, rather than
+walking through every line of code.
+
+I think this will:
+
+1. Be more efficient
+2. Be more focused
+3. Be more beneficial for anyone following
+
+# Banner
+
+![Banner](./media/NicandraBanner.webp)
