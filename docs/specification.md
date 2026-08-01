@@ -1,24 +1,28 @@
-# Software Requirement Specification
+# Nicandra Specification
 
 ## Executive Summary
 
-Nicandra Engine lets you build native apps and games, with tons of helpful building blocks built in. It unifies 
-application and game development to provide the benefits of both: graphics, simulation, and user interface
-power.
+Nicandra is **one tool to build apps, games and simulations**. This synergy brings benefits of each: graphics, simulation, and user interface power.
 
-Nicandra Engine is named after a mysterious plant with nice purple flowers and lantern like structures 
-protecting their berries (don't eat them). [It's sometimes a weed](https://en.wikipedia.org/wiki/Nicandra_physalodes#/media/File:Nicandra_physalodes_plant.jpg), able to grow in a wide variety of conditions,
-and yet still produce beautiful flowers. I'd like this engine to similarly run on various platforms, be resilient,
-be efficient, and allow apps and games to bloom.
+It's named after a mysterious plant with nice purple flowers and lantern-like structures 
+protecting their berries (don't eat them). [It's sometimes a weed](https://en.wikipedia.org/wiki/Nicandra_physalodes#/media/File:Nicandra_physalodes_plant.jpg), producing beautiful flowers even in difficult environments. Similarly, I'd like my projects to run well across various environments.
+
+This is a fun, personal project for me.
 
 ## Purpose
 
-When you think of building apps and games... it can get
-complicated. There's tons and tons of different tools, 
-frameworks, many requiring large amounts of scaffolding.
+Less fragmentation, more synergy. 
 
-I just want a nice tool to make fun games, or nice
-desktop applications quickly and simply. 
+I want to create loads of various projects without switching between various frameworks, libraries, engines, etc. For example:
+
+- 📝 My own word processor or writing tool.
+- 📊 A spreadsheet program with Lua scripts
+- 🏝️ Island survival game
+- ⚔️ Role playing game
+- ✅ Next version of my planner.
+- ⛏️ Creative tools to edit maps, build stories, etc.
+
+I want to blur the lines between app, game and simulation. Apps frequently use 3D graphics. Games sometimes require rich UI. 
 
 ## General Feature Inventory
 
@@ -223,6 +227,15 @@ This is an outline of features needed by the engine, followed by a priority:
 
 # Policies
 
+## Work in Public
+
+Reasons:
+
+- 🍰 I'd like to take you along the journey. 
+- 📚 I can learn from you, and maybe you can learn from me. 
+- ✅ I can document my process for accountability.
+- 🌍 Open source so other people can use it.
+
 ## Development Flow
 
 - Features to build will be in [Version Plans](./version-plans.md). And completed versions will be in [Release Notes](./release-notes.md).
@@ -240,7 +253,7 @@ not using them except for these instances:
 
 1. Research - To help find websites, resources, information, etc. on topics.
 2. Debugging - For very niche issues, as its good at cutting down time here.
-3. Adversarial Validation - AI is good at seeing gaps in testing and requirements. Did I properly do accessibility? Are there edge cases I'm not thinking of for a unit test?
+3. Adversarial Testing - AI is good at seeing gaps in testing and requirements. Did I properly do accessibility? Are there edge cases I'm not thinking of for a unit test?
 
 Otherwise, AI is **not** to be used for code generation. 
 This is because:
@@ -267,3 +280,7 @@ I think this will:
 1. Be more efficient
 2. Be more focused
 3. Be more beneficial for anyone following
+
+# Banner
+
+![Banner](./media/NicandraBanner.webp)
