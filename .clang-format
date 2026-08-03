@@ -13,12 +13,6 @@ TabWidth: 4
 UseTab: ForIndentation
 IndentAccessModifiers: false
 AccessModifierOffset: -4
-AllowShortBlocksOnASingleLine: Never
-AllowShortFunctionsOnASingleLine: Never
-AllowShortIfStatementsOnASingleLine: Never
-AllowShortLoopsOnASingleLine: false
-AllowShortEnumsOnASingleLine: false
-AllowShortNamespacesOnASingleLine: false
-AllowShortCaseLabelsOnASingleLine: false
+
 
 NamespaceIndentation: None
