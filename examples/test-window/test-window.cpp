@@ -1,6 +1,6 @@
-#include <app/app.hpp>
+#include "core/app.hpp"
 #include <nicandra.hpp>
 
 int main() {
-    Nicandra::start();
+  
 }

@@ -9,8 +9,26 @@ file(GLOB_RECURSE ${PROJECT_NAME}_SRC src/*.cpp)
 file(GLOB_RECURSE ${PROJECT_NAME}_HEADERS include/*.hpp)
 file(GLOB_RECURSE ${PROJECT_NAME}_PRIVATE_HEADERS src/*.hpp)
 
+# Packages
+include(scripts/cmake/CPM.cmake)
+
+CPMAddPackage(
+    NAME json
+    GITHUB_REPOSITORY nlohmann/json
+    GIT_TAG v3.12.0
+)
+
+CPMAddPackage(
+    NAME glfw
+    GITHUB_REPOSITORY glfw/glfw
+    GIT_TAG 3.5.1
+)
+
 add_library(${PROJECT_NAME} STATIC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_HEADERS} ${${PROJECT_NAME}_PRIVATE_HEADERS})
 target_include_directories(${PROJECT_NAME} PUBLIC include)
 target_compile_options(${PROJECT_NAME} PRIVATE -Werror -Wall -Wextra)
+
+target_link_libraries(${PROJECT_NAME} PRIVATE nlohmann_json)
+target_link_libraries(${PROJECT_NAME} PRIVATE glfw)
 
 add_subdirectory(examples)
