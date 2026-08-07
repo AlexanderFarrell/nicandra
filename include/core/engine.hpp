@@ -1,5 +1,7 @@
 #pragma once
 
-class Engine {
-	
+namespace Engine {
+
+extern bool running;
+
 };

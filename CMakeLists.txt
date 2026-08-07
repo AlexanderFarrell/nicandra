@@ -35,7 +35,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC include)
 target_compile_options(${PROJECT_NAME} PRIVATE -Werror -Wall -Wextra)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE nlohmann_json)
-target_link_libraries(${PROJECT_NAME} PRIVATE glfw)
+target_link_libraries(${PROJECT_NAME} PUBLIC glfw)
 target_link_libraries(${PROJECT_NAME} PUBLIC spdlog)
 
 add_subdirectory(examples)

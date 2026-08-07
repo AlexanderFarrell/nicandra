@@ -6,7 +6,9 @@
 #include <string>
 #include <thread>
 #include <vector>
+#include "core/engine.hpp"
 #include "spdlog/spdlog.h"
+#include "window/window.hpp"
 
 std::optional<std::function<void()>> on_signal;
 void handle_int_signal(int signal) {
@@ -41,21 +43,28 @@ void Nicandra::App::run(const std::string& start_stage_name) {
         return;
   }
 
-  on_signal = [this]() {
-    this->running = false;
+  on_signal = []() {
+	Engine::running = false;
   };
   signal(SIGINT, handle_int_signal);
-  this->running = true;
+
+  // Initialize
+  WindowManager::setup();
+
+  Engine::running = true;
 
   this->switch_stage(start_stage_name);
 
-  while (this->running) {
+  while (Engine::running) {
+	  WindowManager::update();
     std::this_thread::sleep_for(std::chrono::milliseconds(16));
   }
 
   this->switch_stage("");
 
-  this->running = false;
+  WindowManager::breakdown();
+
+  Engine::running = false;
 }
 
 void Nicandra::App::switch_stage(const std::string &stage_name) {

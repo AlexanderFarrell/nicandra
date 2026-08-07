@@ -13,7 +13,6 @@ class App {
 private:
   std::unordered_map<std::string, Stage> stages;
   std::optional<Stage> current;
-  bool running = false;
 public:
 	App(const std::vector<Stage> stages);
 	~App() = default;
