@@ -18,13 +18,17 @@ struct WindowConfig {
 class Window {
 private:
 	GenIndex _index;
-	GLFWwindow *glfw_window;
+	GLFWwindow *glfw_window = nullptr;
 
-	static Result<Window, std::string> Create(const WindowConfig& config, bool use_opengl);
+	static Result<Window, std::string> Create(const WindowConfig& config, bool use_opengl, GLFWwindow* share = nullptr);
 
 public:
 	Window() = default;
-	virtual ~Window() = default;
+	Window(const Window &) = delete;
+	Window &operator=(const Window &) = delete;
+	Window(Window&& window);
+	
+	virtual ~Window();
 
 	friend class WindowManager;
 };

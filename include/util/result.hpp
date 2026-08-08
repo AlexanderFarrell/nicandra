@@ -11,10 +11,10 @@ class Result {
     bool is_ok() {
 		return std::holds_alternative<OkT>(this->value);
 	}
-    const OkT &get_value() {
+    OkT &get_value() {
 		return std::get<OkT>(this->value);
 	}
-	const ErrorT &get_error() {
+	ErrorT &get_error() {
 		return std::get<ErrorT>(this->value);
 	}
 
@@ -39,7 +39,7 @@ private:
 public:
   bool is_ok() { return !this->err.has_value(); }
   void get_value() { return; }
-  const ErrorT &get_error() { return this->err.value(); }
+  ErrorT &get_error() { return this->err.value(); }
 
   static Result<void, ErrorT> with_error(const ErrorT &error) {
     Result r;

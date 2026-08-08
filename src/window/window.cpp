@@ -15,7 +15,8 @@ SlotMap<Window> WindowManager::_windows;
 std::vector<GenIndex> WindowManager::_windows_to_clear;
 
 Result<Window, std::string> Window::Create(const WindowConfig &config,
-                                           bool use_opengl) {
+                                           bool use_opengl,
+                                           GLFWwindow* share) {
 	// GLFW defaults to making an OpenGL context, but see... we might have
 	// started with another renderer, then changed to OpenGL (re-creating
 	// windows) thus we need to set back to OpenGL.
@@ -26,7 +27,7 @@ Result<Window, std::string> Window::Create(const WindowConfig &config,
 	}
 
 	GLFWwindow* glfw_window = glfwCreateWindow(
-	    config.width, config.height, config.title.c_str(), nullptr, nullptr);
+	    config.width, config.height, config.title.c_str(), nullptr, share);
 	if (!glfw_window) {
 		return Result<Window, std::string>::with_error(
 		    "Failed to create window"
@@ -36,7 +37,19 @@ Result<Window, std::string> Window::Create(const WindowConfig &config,
 	Window window;
 	window.glfw_window = glfw_window;
 
-	return Result<Window, std::string>::with_ok(window);
+	return Result<Window, std::string>::with_ok(std::move(window));
+}
+
+Window::~Window() {
+	if (this->glfw_window != nullptr) {
+		glfwDestroyWindow(this->glfw_window);
+	}
+}
+
+Window::Window(Window &&window) {
+	this->glfw_window = window.glfw_window;
+	this->_index = window._index;
+	window.glfw_window = nullptr;
 }
 
 
@@ -53,7 +66,12 @@ std::optional<std::reference_wrapper<Window>> WindowManager::get_by_id(GenIndex 
 }
 
 Result<Window, std::string> WindowManager::spawn(WindowConfig &config) {
-	Result<Window, std::string> result = Window::Create(config, true);
+	bool opengl = true;
+	GLFWwindow *share = (opengl && WindowManager::_windows.size_active() > 0)
+	    ? WindowManager::_windows.get(0).value().get().glfw_window
+	      : nullptr;
+
+	Result<Window, std::string> result = Window::Create(config, opengl, share);
 	if (!result.is_ok()) {
 		return result;
 	}
@@ -106,7 +124,6 @@ Result<void, std::string> WindowManager::setup() {
 			main.get_error()
 		);
 	}
-	WindowManager::_windows.add(main.get_value());
 
 	return Result<void, std::string>::with_ok();
 }
@@ -118,17 +135,20 @@ void WindowManager::update() {
 		}
 
 		glfwSwapBuffers(window.glfw_window);
-		glfwPollEvents();
 	}
+	glfwPollEvents();
 
-	for (auto &index : WindowManager::_windows_to_clear) {
-		WindowManager::_windows.remove(index);
+	if (WindowManager::_windows_to_clear.size() > 0) {
+		for (auto &index : WindowManager::_windows_to_clear) {
+			WindowManager::_windows.remove(index);
 
-		// Main window close closes the application
-		if (index.index == 0) {
-			// A hack, fix this.
-			Engine::running = false;
-		}		
+			// Main window close closes the application
+			if (index.index == 0) {
+				// A hack, fix this.
+				Engine::running = false;
+			}		
+		}
+		WindowManager::_windows_to_clear.clear();
 	}
 }
 

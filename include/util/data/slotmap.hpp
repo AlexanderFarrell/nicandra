@@ -8,8 +8,8 @@
 #include <iterator>
 
 struct GenIndex {
-	std::size_t index;
-	std::uint32_t generation;
+	std::size_t index = 0;
+	std::uint32_t generation = 0;
 };
 
 template <class T> class SlotMap {
@@ -35,7 +35,7 @@ public:
 			std::size_t index = this->_freelist[this->_freelist.size()-1];
 			this->_freelist.pop_back();
 			Slot &slot = this->_slots[index];
-			slot.data = item;
+			slot.data.emplace(std::move(item));
 			slot.generation++;
 			this->_iter_vector.push_back(index);
 			slot.iter_index = this->_iter_vector.size() - 1;
@@ -46,7 +46,7 @@ public:
 		} else {
 			// Make a new slot
 			this->_slots.push_back(Slot{
-			    .data = item,
+			    .data = std::move(item),
 			    .generation = 0,
 			});
 			std::size_t index = _slots.size() - 1;
