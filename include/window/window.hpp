@@ -9,26 +9,28 @@
 #include "../util/data/slotmap.hpp"
 #include "../util/result.hpp"
 
-struct WindowConfig {
-	std::uint32_t width = 1280;
-	std::uint32_t height = 720;
-	std::string title = "Untitled Window";
-};
-
 class Window {
 private:
-	GenIndex _index;
-	GLFWwindow *glfw_window = nullptr;
-
-	static Result<Window, std::string> Create(const WindowConfig& config, bool use_opengl, GLFWwindow* share = nullptr);
-
+	std::string _title = "Untitled Window";
+	std::uint32_t _width = 1280;
+	std::uint32_t _height = 720;
+	GLFWwindow *_glfw_window = nullptr;
+	std::optional<GenIndex> _index = std::nullopt;
 public:
 	Window() = default;
-	Window(const Window &) = delete;
-	Window &operator=(const Window &) = delete;
-	Window(Window&& window);
-	
 	virtual ~Window();
+
+	// This owns a window handle, so we don't want copy constructor or
+	// assignment here. We will prevent it
+	Window(const Window &other) = delete;
+	Window operator=(const Window &other) = delete;
+
+	// For move operations, we transfer the glfw_window to the new one
+	Window(Window &&other);
+	Window operator=(Window &&other);
+
+	void open();
+	void close();
 
 	friend class WindowManager;
 };
@@ -43,9 +45,6 @@ public:
 	static Window &main_window();
 	static std::optional<std::reference_wrapper<Window>> get_by_id(std::size_t index);
 	static std::optional<std::reference_wrapper<Window>> get_by_id(GenIndex &index);
-	static Result<Window, std::string> spawn(WindowConfig& config);
-	static void remove(std::size_t index);
-	static void remove(GenIndex &index);
 	static std::size_t get_window_count();
 
 	// Lifecycle

@@ -14,156 +14,184 @@
 SlotMap<Window> WindowManager::_windows;
 std::vector<GenIndex> WindowManager::_windows_to_clear;
 
-Result<Window, std::string> Window::Create(const WindowConfig &config,
-                                           bool use_opengl,
-                                           GLFWwindow* share) {
-	// GLFW defaults to making an OpenGL context, but see... we might have
-	// started with another renderer, then changed to OpenGL (re-creating
-	// windows) thus we need to set back to OpenGL.
-	if (use_opengl) {
-		glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_API);
-	} else {
-		glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-	}
-
-	GLFWwindow* glfw_window = glfwCreateWindow(
-	    config.width, config.height, config.title.c_str(), nullptr, share);
-	if (!glfw_window) {
-		return Result<Window, std::string>::with_error(
-		    "Failed to create window"
-		);
-	}
-
-	Window window;
-	window.glfw_window = glfw_window;
-
-	return Result<Window, std::string>::with_ok(std::move(window));
-}
-
 Window::~Window() {
-	if (this->glfw_window != nullptr) {
-		glfwDestroyWindow(this->glfw_window);
+	if (this->_glfw_window != nullptr) {
+		glfwDestroyWindow(this->_glfw_window);
 	}
+	this->_index = std::nullopt;
 }
 
-Window::Window(Window &&window) {
-	this->glfw_window = window.glfw_window;
-	this->_index = window._index;
-	window.glfw_window = nullptr;
+Window::Window(Window &&other)
+    : _title(other._title), _width(other._width), _height(other._height),
+      _index(other._index) {
+	// Take its handle, and invalidate the other (so it doesn't destroy the
+	// window)
+	this->_glfw_window = other._glfw_window;
+	other._glfw_window = nullptr;
 }
 
+Window Window::operator=(Window &&other) {
+	Window window;
+	window._title = other._title;
+	window._width = other._width;
+	window._height = other._height;
+	window._index = other._index;
 
-Window &WindowManager::main_window() {
-	return WindowManager::_windows.get(0).value();
+	window._glfw_window = other._glfw_window;
+	other._glfw_window = nullptr;
+	return window;
 }
 
-std::optional<std::reference_wrapper<Window>> WindowManager::get_by_id(std::size_t index) {
-	return WindowManager::_windows.get(index);
-}
+// Result<Window, std::string> Window::Create(const WindowConfig &config,
+//                                            bool use_opengl,
+//                                            GLFWwindow* share) {
+// 	// GLFW defaults to making an OpenGL context, but see... we might have
+// 	// started with another renderer, then changed to OpenGL (re-creating
+// 	// windows) thus we need to set back to OpenGL.
+// 	if (use_opengl) {
+// 		glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_API);
+// 	} else {
+// 		glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
+// 	}
 
-std::optional<std::reference_wrapper<Window>> WindowManager::get_by_id(GenIndex &index) {
-	return WindowManager::_windows.get(index);
-}
+// 	GLFWwindow* glfw_window = glfwCreateWindow(
+// 	    config.width, config.height, config.title.c_str(), nullptr, share);
+// 	if (!glfw_window) {
+// 		return Result<Window, std::string>::with_error(
+// 		    "Failed to create window"
+// 		);
+// 	}
 
-Result<Window, std::string> WindowManager::spawn(WindowConfig &config) {
-	bool opengl = true;
-	GLFWwindow *share = (opengl && WindowManager::_windows.size_active() > 0)
-	    ? WindowManager::_windows.get(0).value().get().glfw_window
-	      : nullptr;
+// 	Window window;
+// 	window.glfw_window = glfw_window;
 
-	Result<Window, std::string> result = Window::Create(config, opengl, share);
-	if (!result.is_ok()) {
-		return result;
-	}
-	auto index = WindowManager::_windows.add(std::move(result.get_value()));
+// 	return Result<Window, std::string>::with_ok(std::move(window));
+// }
 
-	auto& w = WindowManager::get_by_id(index).value().get();
-	w._index = index;
-	return Result<Window, std::string>::with_ok(
-	    WindowManager::get_by_id(index).value()
-	);
-}
+// Window::~Window() {
+// 	if (this->glfw_window != nullptr) {
+// 		glfwDestroyWindow(this->glfw_window);
+// 	}
+// }
 
-void WindowManager::remove(std::size_t index) {
-	WindowManager::_windows.remove(index);
-}
+// Window::Window(Window &&window) {
+// 	this->glfw_window = window.glfw_window;
+// 	this->_index = window._index;
+// 	window.glfw_window = nullptr;
+// }
 
-void WindowManager::remove(GenIndex &index) {
-	WindowManager::_windows.remove(index);
-}
 
-std::size_t WindowManager::get_window_count() {
-	return WindowManager::_windows.size_active();
-}
+// Window &WindowManager::main_window() {
+// 	return WindowManager::_windows.get(0).value();
+// }
 
-Result<void, std::string> WindowManager::setup() {
-	// Initialize GLFW
-	if (!glfwInit()) {
-		return Result<void, std::string>::with_error(
-		    "Failed to initialize GLFW library"
-		);
-	}
+// std::optional<std::reference_wrapper<Window>> WindowManager::get_by_id(std::size_t index) {
+// 	return WindowManager::_windows.get(index);
+// }
 
-	// Set error handler
-	glfwSetErrorCallback([](int error, const char *description) {
-		spdlog::error("GLFW Error - Code: "
-		              + std::to_string(error)
-		              + " - "
-		              + std::string(description));
-	});
+// std::optional<std::reference_wrapper<Window>> WindowManager::get_by_id(GenIndex &index) {
+// 	return WindowManager::_windows.get(index);
+// }
 
-	// Start the main window
-	WindowConfig config = WindowConfig{
-	    .width = 1280,
-	    .height = 720,
-	    .title = "App",
-	};
-	Result<Window, std::string> main = WindowManager::spawn(config);
-	if (!main.is_ok()) {
-		return Result<void, std::string>::with_error(
-			main.get_error()
-		);
-	}
+// Result<Window, std::string> WindowManager::spawn(WindowConfig &config) {
+// 	bool opengl = true;
+// 	GLFWwindow *share = (opengl && WindowManager::_windows.size_active() > 0)
+// 	    ? WindowManager::_windows.get(0).value().get().glfw_window
+// 	      : nullptr;
 
-	return Result<void, std::string>::with_ok();
-}
+// 	Result<Window, std::string> result = Window::Create(config, opengl, share);
+// 	if (!result.is_ok()) {
+// 		return result;
+// 	}
+// 	auto index = WindowManager::_windows.add(std::move(result.get_value()));
 
-void WindowManager::update() {
-	for (auto& window : WindowManager::_windows) {
-		if (glfwWindowShouldClose(window.glfw_window)) {
-			WindowManager::_windows_to_clear.push_back(window._index);
-		}
+// 	auto& w = WindowManager::get_by_id(index).value().get();
+// 	w._index = index;
+// 	return Result<Window, std::string>::with_ok(
+// 	    WindowManager::get_by_id(index).value()
+// 	);
+// }
 
-		glfwSwapBuffers(window.glfw_window);
-	}
-	glfwPollEvents();
+// void WindowManager::remove(std::size_t index) {
+// 	WindowManager::_windows.remove(index);
+// }
 
-	if (WindowManager::_windows_to_clear.size() > 0) {
-		for (auto &index : WindowManager::_windows_to_clear) {
-			WindowManager::_windows.remove(index);
+// void WindowManager::remove(GenIndex &index) {
+// 	WindowManager::_windows.remove(index);
+// }
 
-			// Main window close closes the application
-			if (index.index == 0) {
-				// A hack, fix this.
-				Engine::running = false;
-			}		
-		}
-		WindowManager::_windows_to_clear.clear();
-	}
-}
+// std::size_t WindowManager::get_window_count() {
+// 	return WindowManager::_windows.size_active();
+// }
 
-void WindowManager::breakdown() {
-	// Invalidate and clean up all windows before the glfwTerminate call
-	WindowManager::_windows.clear();
+// Result<void, std::string> WindowManager::setup() {
+// 	// Initialize GLFW
+// 	if (!glfwInit()) {
+// 		return Result<void, std::string>::with_error(
+// 		    "Failed to initialize GLFW library"
+// 		);
+// 	}
 
-	// Breakdown GLFW
-	glfwTerminate();
-}
+// 	// Set error handler
+// 	glfwSetErrorCallback([](int error, const char *description) {
+// 		spdlog::error("GLFW Error - Code: "
+// 		              + std::to_string(error)
+// 		              + " - "
+// 		              + std::string(description));
+// 	});
 
-SlotMap<Window>::Iterator WindowManager::begin() {
-	return WindowManager::_windows.begin();
-}
+// 	// Start the main window
+// 	WindowConfig config = WindowConfig{
+// 	    .width = 1280,
+// 	    .height = 720,
+// 	    .title = "App",
+// 	};
+// 	Result<Window, std::string> main = WindowManager::spawn(config);
+// 	if (!main.is_ok()) {
+// 		return Result<void, std::string>::with_error(
+// 			main.get_error()
+// 		);
+// 	}
 
-SlotMap<Window>::Iterator WindowManager::end() {
-	return WindowManager::_windows.end();
-}
+// 	return Result<void, std::string>::with_ok();
+// }
+
+// void WindowManager::update() {
+// 	for (auto& window : WindowManager::_windows) {
+// 		if (glfwWindowShouldClose(window.glfw_window)) {
+// 			WindowManager::_windows_to_clear.push_back(window._index);
+// 		}
+
+// 		glfwSwapBuffers(window.glfw_window);
+// 	}
+// 	glfwPollEvents();
+
+// 	if (WindowManager::_windows_to_clear.size() > 0) {
+// 		for (auto &index : WindowManager::_windows_to_clear) {
+// 			WindowManager::_windows.remove(index);
+
+// 			// Main window close closes the application
+// 			if (index.index == 0) {
+// 				// A hack, fix this.
+// 				Engine::running = false;
+// 			}		
+// 		}
+// 		WindowManager::_windows_to_clear.clear();
+// 	}
+// }
+
+// void WindowManager::breakdown() {
+// 	// Invalidate and clean up all windows before the glfwTerminate call
+// 	WindowManager::_windows.clear();
+
+// 	// Breakdown GLFW
+// 	glfwTerminate();
+// }
+
+// SlotMap<Window>::Iterator WindowManager::begin() {
+// 	return WindowManager::_windows.begin();
+// }
+
+// SlotMap<Window>::Iterator WindowManager::end() {
+// 	return WindowManager::_windows.end();
+// }
