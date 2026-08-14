@@ -24,5 +24,5 @@ void end() {
 
 int main() {
 	spdlog::set_level(spdlog::level::debug);
-  Nicandra::run_basic(start, end);
+  	Nicandra::run_basic(start, end);
 }
