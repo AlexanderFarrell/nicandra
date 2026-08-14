@@ -7,6 +7,7 @@
 #include <thread>
 #include <vector>
 #include "core/engine.hpp"
+#include "gpu/gpu.hpp"
 #include "spdlog/spdlog.h"
 #include "window/window.hpp"
 
@@ -38,6 +39,16 @@ void Nicandra::App::add_stage(const Stage& stage) {
 }
 
 void Nicandra::App::run(const std::string& start_stage_name) {
+	// Temporary, do config
+	Config config = {
+		.window = {
+		 .width = 1280,
+		 .height = 720,
+		 .title = "Hello"
+		}
+	};
+
+
   if (this->stages.empty()) {
 		spdlog::error("Please add at least one stage before calling run");
         return;
@@ -49,20 +60,22 @@ void Nicandra::App::run(const std::string& start_stage_name) {
   signal(SIGINT, handle_int_signal);
 
   // Initialize
-  WindowManager::setup();
+  GPU::setup_engine(config);
+  Window::setup_engine(config);
 
   Engine::running = true;
 
   this->switch_stage(start_stage_name);
 
   while (Engine::running) {
-	  WindowManager::update();
+	Window::update_engine();
     std::this_thread::sleep_for(std::chrono::milliseconds(16));
   }
 
   this->switch_stage("");
 
-  WindowManager::breakdown();
+  Window::breakdown_engine();
+  GPU::breakdown_engine();
 
   Engine::running = false;
 }

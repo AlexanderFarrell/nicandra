@@ -11,6 +11,9 @@ class Result {
     bool is_ok() {
 		return std::holds_alternative<OkT>(this->value);
 	}
+	bool is_err() {
+		return !is_ok();
+	}
     OkT &get_value() {
 		return std::get<OkT>(this->value);
 	}

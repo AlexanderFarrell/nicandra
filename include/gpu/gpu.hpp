@@ -13,17 +13,27 @@
 
 #include <cstddef>
 #include <memory>
+#include <string>
+#include "util/result.hpp"
+#include "config/config.hpp"
 
 class GPUGraphicsAPI;
 class GPUComputeAPI;
 
 class GPU {
-	std::unique_ptr<GPUGraphicsAPI> graphics = nullptr;
-	std::unique_ptr<GPUComputeAPI> compute = nullptr;
+public:
+	static std::unique_ptr<GPUGraphicsAPI> graphics;
+	static std::unique_ptr<GPUComputeAPI> compute;
+
+	static Result<void, std::string> setup_engine(const Config& config);
+	static void breakdown_engine();
+
+	static Result<void, std::string> switch_to_api(const GraphicsAPIKind kind);
 };
 
 class GPUGraphicsAPI {
 public:
+	virtual ~GPUGraphicsAPI();
 	virtual bool uses_opengl_window_context() = 0;
 };
 

@@ -4,16 +4,17 @@
 #include "window/window.hpp"
 #include <cstddef>
 #include <nicandra.hpp>
+#include <string>
 
 void start() {
 	spdlog::info("Hello from Test Window");
-	for (std::size_t i = 0; i < 100; i++) {
+	for (std::size_t i = 0; i < 20; i++) {
 		WindowConfig config = {
-			.width = 100,
+			.width = 200,
 			.height = 100,
-			.title = "Window Two",
+			.title = "Window " + std::to_string(i),
 		};
-		WindowManager::spawn(config);
+		Window::create(config);
 	}
 }
 

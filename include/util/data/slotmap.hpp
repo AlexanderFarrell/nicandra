@@ -59,7 +59,7 @@ public:
 		}
 	}
 
-	void remove(std::size_t index) {
+	void remove(const std::size_t index) {
 		Slot &slot = this->_slots[index];
 		slot.data = std::nullopt;
 
@@ -73,18 +73,18 @@ public:
 		this->_freelist.push_back(index);
 	}
 
-	void remove(GenIndex &index) {
+	void remove(const GenIndex &index) {
 		Slot &slot = this->_slots[index.index];
 		if (slot.generation == index.generation) {
 			this->remove(index.index);
 		}
 	}
 
-	std::optional<std::reference_wrapper<T>> get(std::size_t index) {
+	std::optional<std::reference_wrapper<T>> get(const std::size_t index) {
 		return std::ref(*this->_slots[index].data);
 	}
 
-	std::optional<std::reference_wrapper<T>> get(GenIndex &index) {
+	std::optional<std::reference_wrapper<T>> get(const GenIndex &index) {
 		// Gen index also benefits from checking for size
 		if (index.index >= this->_slots.size()) {
 			return std::nullopt;
