@@ -11,36 +11,94 @@
 #include <string>
 #include <vector>
 
-SlotMap<Window> WindowManager::_windows;
-std::vector<GenIndex> WindowManager::_windows_to_clear;
+SlotMap<Window> Window::_active_windows;
+std::vector<GenIndex> Window::_windows_to_remove;
 
-Window::~Window() {
+std::uint32_t Window::get_width() { return this->config.width; }
+
+std::uint32_t Window::get_height() { return this->config.height; }
+
+const std::string &Window::get_title() { return this->config.title; }
+
+void Window::set_size(const std::uint32_t width, const std::uint32_t height) {
+	this->config.width = width;
+	this->config.height = height;
 	if (this->_glfw_window != nullptr) {
-		glfwDestroyWindow(this->_glfw_window);
+		glfwSetWindowSize(this->_glfw_window, this->config.width, this->config.height);
 	}
-	this->_index = std::nullopt;
 }
 
-Window::Window(Window &&other)
-    : _title(other._title), _width(other._width), _height(other._height),
-      _index(other._index) {
-	// Take its handle, and invalidate the other (so it doesn't destroy the
-	// window)
-	this->_glfw_window = other._glfw_window;
-	other._glfw_window = nullptr;
+void Window::set_width(const std::uint32_t width) {
+	this->config.width = width;
+	if (this->_glfw_window != nullptr) {
+		glfwSetWindowSize(this->_glfw_window, this->config.width, this->config.height);
+	}
 }
 
-Window Window::operator=(Window &&other) {
-	Window window;
-	window._title = other._title;
-	window._width = other._width;
-	window._height = other._height;
-	window._index = other._index;
-
-	window._glfw_window = other._glfw_window;
-	other._glfw_window = nullptr;
-	return window;
+void Window::set_height(const std::uint32_t height) {
+	this->config.height = height;
+	if (this->_glfw_window != nullptr) {
+		glfwSetWindowSize(this->_glfw_window, this->config.width, this->config.height);
+	}
 }
+
+void Window::set_title(const std::string &title) {
+	this->config.title = title;
+	if (this->_glfw_window != nullptr) {
+		glfwSetWindowTitle(this->_glfw_window, this->config.title.c_str());
+	}
+}
+
+
+// SlotMap<Window> WindowManager::_windows;
+// std::vector<GenIndex> WindowManager::_windows_to_clear;
+
+// Window::~Window() {
+// 	if (this->_glfw_window != nullptr) {
+// 		glfwDestroyWindow(this->_glfw_window);
+// 	}
+// 	this->_index = std::nullopt;
+// }
+
+// Window::Window(Window &&other)
+//     : _title(other._title), _width(other._width), _height(other._height),
+//       _index(other._index) {
+// 	// Take its handle, and invalidate the other (so it doesn't destroy the
+// 	// window)
+// 	this->_glfw_window = other._glfw_window;
+// 	other._glfw_window = nullptr;
+// }
+
+// Window Window::operator=(Window &&other) {
+// 	Window window;
+// 	window._title = other._title;
+// 	window._width = other._width;
+// 	window._height = other._height;
+// 	window._index = other._index;
+
+// 	window._glfw_window = other._glfw_window;
+// 	other._glfw_window = nullptr;
+// 	return window;
+// }
+
+// Window& WindowManager::main_window() {
+// 	return WindowManager::_windows.get(0)->get();
+// }
+
+// std::optional<std::reference_wrapper<Window>> WindowManager::get_by_id(std::size_t index) {
+// 	return WindowManager::_windows.get(index);
+// }
+
+// std::optional<std::reference_wrapper<Window>>
+// WindowManager::get_by_id(GenIndex &index) {
+// 	return WindowManager::_windows.get(index);
+// }
+
+// std::size_t WindowManager::get_window_count() {
+// 	return WindowManager::_windows.size_active();
+// }
+
+
 
 // Result<Window, std::string> Window::Create(const WindowConfig &config,
 //                                            bool use_opengl,
