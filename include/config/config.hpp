@@ -89,9 +89,18 @@ struct GPUConfig {
 	ComputeAPIKind compute_api = ComputeAPIKind::CApiOpenCL;
 };
 
-
+/**
+* Config for a Nicandra App/Game.
+*/
 struct Config {
+	/**
+	* Config for the main window. Spawn other windows as needed.
+	*/
 	WindowConfig window;
+
+	/**
+	* Config for APIs for the GPU.
+	*/
 	GPUConfig gpu;
 };
 

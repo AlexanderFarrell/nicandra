@@ -56,6 +56,11 @@ private:
 class GPUGraphicsAPI {
 public:
 	virtual ~GPUGraphicsAPI();
+
+	/**
+	* Returns true if we should let GLFW make an OpenGL context, false
+	* otherwise. Basically it's true only for OpenGL.
+	*/
 	virtual bool uses_opengl_window_context() = 0;
 };
 
