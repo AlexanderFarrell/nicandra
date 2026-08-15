@@ -1,3 +1,6 @@
 #pragma once
-#include "app/app.hpp"
 
+// External libraries
+#include "spdlog/spdlog.h"
+
+#include "core/app.hpp"

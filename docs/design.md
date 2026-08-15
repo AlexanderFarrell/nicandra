@@ -66,7 +66,7 @@ Cons:
 This consists of the lowest level of Nicandra. Primarily concerned with
 hardware, assets, and common utilities.
 
-- Nicandra-Core (lib) - Engine, runtime, windowing, brings everything together
+- Nicandra-App (lib) - Engine, runtime, windowing, brings everything together
 - Nicandra-Assets (lib) - Asset management, loading and saving.
 - Nicandra-Math (lib) - Linear algebra, coordinates, stats, random, etc.
 - Nicandra-Visual (lib) - Rendering
