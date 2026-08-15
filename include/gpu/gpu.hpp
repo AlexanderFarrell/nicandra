@@ -20,21 +20,49 @@
 class GPUGraphicsAPI;
 class GPUComputeAPI;
 
+/**
+* Handles calling the graphics card.
+*/
 class GPU {
 public:
+	/**
+	* Draws graphics to the screen using the GPU. 
+	*/
 	static std::unique_ptr<GPUGraphicsAPI> graphics;
+
+	/**
+	* Performs highly parallel compute on the GPU.
+	*/
 	static std::unique_ptr<GPUComputeAPI> compute;
 
-	static Result<void, std::string> setup_engine(const Config& config);
+	static Result<void, std::string> switch_to_api(const GraphicsAPIKind kind);
+
+private:
+	/**
+	* Called by App to initialize a graphics and optionally compute GPU APIs. 
+	*/
+	static Result<void, std::string> setup_engine(const Config &config);
+
+	/**
+	* Called by the App to breakdown (gracefully) the GPU resources.
+	*/
 	static void breakdown_engine();
 
-	static Result<void, std::string> switch_to_api(const GraphicsAPIKind kind);
 };
 
+/**
+* An abstraction over a graphics API such as OpenGL, Vulkan, DirectX or Metal.
+*/
 class GPUGraphicsAPI {
 public:
 	virtual ~GPUGraphicsAPI();
 	virtual bool uses_opengl_window_context() = 0;
 };
 
-class GPUComputeAPI {};
+/**
+* An abstraction over a GPU general compute API, such as OpenCL, CUDA, Vulkan,
+* DirectX12, Metal, etc.
+*/
+class GPUComputeAPI {
+
+};

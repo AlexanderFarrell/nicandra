@@ -2,6 +2,9 @@
 
 namespace Engine {
 
+/**
+* Is the app/game running?
+*/
 extern bool running;
 
 };
