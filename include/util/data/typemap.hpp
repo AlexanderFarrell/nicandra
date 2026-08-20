@@ -3,6 +3,7 @@
 #include <any>
 #include <cstddef>
 #include <functional>
+#include <iterator>
 #include <memory>
 #include <optional>
 #include <typeindex>
@@ -123,4 +124,18 @@ public:
 	* Returns true if the collection has 0 items, false if it has 1 or more.
 	*/
 	bool is_empty();
+
+	class Iterator {
+	public:
+		using base_iterator = std::vector<std::shared_ptr<std::any>>::iterator;
+
+		std::any &operator*() { return **_iterator; }
+		std::any* operator->() { return _iterator->get(); }
+
+	private:
+		base_iterator _iterator;
+	};
+
+	TypeMap::Iterator begin();
+	TypeMap::Iterator end();
 };

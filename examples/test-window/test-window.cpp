@@ -1,10 +1,11 @@
+#include <cstddef>
+#include <nicandra.hpp>
+#include <string>
+
 #include "core/app.hpp"
 #include "spdlog/common.h"
 #include "spdlog/spdlog.h"
 #include "window/window.hpp"
-#include <cstddef>
-#include <nicandra.hpp>
-#include <string>
 
 /**
 * Entrypoint once the engine starts.
@@ -14,7 +15,7 @@ void start() {
 	spdlog::info("Hello from Test Window");
 
 	// Spawn a bunch of windows
-	std::size_t window_count = 20;
+	std::size_t window_count = 100;
 	for (std::size_t i = 0; i < window_count; i++) {
 		WindowConfig config = {
 			.width = 200,

@@ -37,7 +37,6 @@ public:
 
 	static Result<void, std::string> switch_to_api(const GraphicsAPIKind kind);
 
-private:
 	/**
 	* Called by App to initialize a graphics and optionally compute GPU APIs. 
 	*/
@@ -47,7 +46,6 @@ private:
 	* Called by the App to breakdown (gracefully) the GPU resources.
 	*/
 	static void breakdown_engine();
-
 };
 
 /**

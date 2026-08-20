@@ -30,6 +30,22 @@ CPMAddPackage(
     GIT_TAG v1.17.0
 )
 
+# From this https://www.studyplan.dev/cmake/cmake-doxygen-documentation
+find_package(Doxygen)
+if(Doxygen_FOUND)
+    message(STATUS "Found Doxygen: ${DOXYGEN_EXECUTABLE}")
+    doxygen_add_docs(
+        doc
+        ${PROJECT_SOURCE_DIR}/include
+        ${PROJECT_SOURCE_DIR}/readme.md
+    )
+    set(DOXYGEN_OUTPUT_DIR "${CMAKE_CURRENT_BINARY_DIR}/build/doc")
+    # add_custom_target(docs
+    #     COMMAND Doxygen::doxygen "${CMAKE_CURRENT_BINARY_DIR}/Doxyfile"
+    # )
+endif()
+
+
 add_library(${PROJECT_NAME} STATIC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_HEADERS} ${${PROJECT_NAME}_PRIVATE_HEADERS})
 target_include_directories(${PROJECT_NAME} PUBLIC include)
 target_compile_options(${PROJECT_NAME} PRIVATE -Werror -Wall -Wextra)
