@@ -1,7 +1,7 @@
 #include "window/window.hpp"
 #include "GLFW/glfw3.h"
-#include "core/engine.hpp"
 #include "gpu/gpu.hpp"
+#include "core/engine.hpp"
 #include "spdlog/spdlog.h"
 #include "util/data/slotmap.hpp"
 #include "util/result.hpp"
@@ -11,7 +11,6 @@
 #include <optional>
 #include <string>
 #include <vector>
-#include "gpu/gpu.hpp"
 
 SlotMap<Window> Window::_active_windows;
 std::vector<GenIndex> Window::_windows_to_remove;

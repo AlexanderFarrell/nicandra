@@ -8,8 +8,8 @@
 #include "opengl.hpp"
 #include "util/result.hpp"
 
-std::unique_ptr<GPUGraphicsAPI> GPU::graphics = nullptr;
-std::unique_ptr<GPUComputeAPI> GPU::compute = nullptr;
+std::unique_ptr<GraphicsAPI> GPU::graphics = nullptr;
+std::unique_ptr<ComputeAPI> GPU::compute = nullptr;
 
 Result<void, std::string> GPU::setup_engine(const Config &config) {
 	return GPU::switch_to_api(config.gpu.graphics_api);
@@ -33,6 +33,6 @@ Result<void, std::string> GPU::switch_to_api(const GraphicsAPIKind kind) {
 	return Result<void, std::string>::with_ok();
 }
 
-GPUGraphicsAPI::~GPUGraphicsAPI() {
+GraphicsAPI::~GraphicsAPI() {
 	
 }

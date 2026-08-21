@@ -30,6 +30,9 @@ CPMAddPackage(
     GIT_TAG v1.17.0
 )
 
+find_package(Vulkan)
+
+
 # From this https://www.studyplan.dev/cmake/cmake-doxygen-documentation
 find_package(Doxygen)
 if(Doxygen_FOUND)
@@ -38,6 +41,7 @@ if(Doxygen_FOUND)
         doc
         ${PROJECT_SOURCE_DIR}/include
         ${PROJECT_SOURCE_DIR}/readme.md
+        ${PROJECT_SOURCE_DIR}/examples
     )
     set(DOXYGEN_OUTPUT_DIR "${CMAKE_CURRENT_BINARY_DIR}/build/doc")
     # add_custom_target(docs
@@ -53,5 +57,6 @@ target_compile_options(${PROJECT_NAME} PRIVATE -Werror -Wall -Wextra)
 target_link_libraries(${PROJECT_NAME} PRIVATE nlohmann_json)
 target_link_libraries(${PROJECT_NAME} PUBLIC glfw)
 target_link_libraries(${PROJECT_NAME} PUBLIC spdlog)
+target_link_libraries(${PROJECT_NAME} PUBLIC Vulkan::Vulkan)
 
 add_subdirectory(examples)

@@ -18,9 +18,9 @@ void start() {
 	std::size_t window_count = 100;
 	for (std::size_t i = 0; i < window_count; i++) {
 		WindowConfig config = {
+			.title = "Window " + std::to_string(i),
 			.width = 200,
 			.height = 100,
-			.title = "Window " + std::to_string(i),
 		};
 		Window::create(config);
 	}

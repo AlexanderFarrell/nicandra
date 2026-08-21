@@ -2,6 +2,7 @@
 
 #include <string>
 #include <cstdint>
+#include <sys/types.h>
 
 // TODO: While we can configure GPU APIs via config, we often want to:
 //  1. Allow the user to choose which one they want.
@@ -89,10 +90,34 @@ struct GPUConfig {
 	ComputeAPIKind compute_api = ComputeAPIKind::CApiOpenCL;
 };
 
+struct Version {
+	uint32_t major_verison;
+	uint32_t minor_version;
+	uint32_t patch_version;
+	std::string prefix = "";
+	uint32_t unit_version;
+};
+
 /**
 * Config for a Nicandra App/Game.
 */
 struct Config {
+
+	std::string application_name;
+
+	Version application_version;
+
+
+	const std::string engine_name = "Nicandra";
+	const Version engine_version = {
+		.major_verison = 0,
+		.minor_version = 1,
+		.patch_version = 0,
+		.prefix = "dev",
+		.unit_version = 1,
+	};
+
+
 	/**
 	* Config for the main window. Spawn other windows as needed.
 	*/

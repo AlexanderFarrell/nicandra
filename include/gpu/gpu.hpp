@@ -17,8 +17,10 @@
 #include "util/result.hpp"
 #include "config/config.hpp"
 
-class GPUGraphicsAPI;
-class GPUComputeAPI;
+namespace nc::hw::gpu {
+
+class GraphicsAPI;
+class ComputeAPI;
 
 /**
 * Handles calling the graphics card.
@@ -28,12 +30,12 @@ public:
 	/**
 	* Draws graphics to the screen using the GPU. 
 	*/
-	static std::unique_ptr<GPUGraphicsAPI> graphics;
+	static std::unique_ptr<GraphicsAPI> graphics;
 
 	/**
 	* Performs highly parallel compute on the GPU.
 	*/
-	static std::unique_ptr<GPUComputeAPI> compute;
+	static std::unique_ptr<ComputeAPI> compute;
 
 	static Result<void, std::string> switch_to_api(const GraphicsAPIKind kind);
 
@@ -51,9 +53,9 @@ public:
 /**
 * An abstraction over a graphics API such as OpenGL, Vulkan, DirectX or Metal.
 */
-class GPUGraphicsAPI {
+class GraphicsAPI {
 public:
-	virtual ~GPUGraphicsAPI();
+	virtual ~GraphicsAPI();
 
 	/**
 	* Returns true if we should let GLFW make an OpenGL context, false
@@ -66,6 +68,7 @@ public:
 * An abstraction over a GPU general compute API, such as OpenCL, CUDA, Vulkan,
 * DirectX12, Metal, etc.
 */
-class GPUComputeAPI {
+class ComputeAPI {
 
+};
 };

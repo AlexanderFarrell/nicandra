@@ -6,6 +6,8 @@
 #include <string>
 #include <thread>
 #include <vector>
+#include <unordered_map>
+#include "config/config.hpp"
 #include "core/engine.hpp"
 #include "gpu/gpu.hpp"
 #include "spdlog/spdlog.h"
@@ -42,10 +44,14 @@ void Nicandra::App::run(const std::string& start_stage_name) {
 	// Temporary, do config
 	Config config = {
 		.window = {
+		 .title = "Hello",
 		 .width = 1280,
 		 .height = 720,
-		 .title = "Hello"
-		}
+		},
+    .gpu = {
+      .graphics_api = GraphicsAPIKind::GApiOpenGL,
+      .compute_api = ComputeAPIKind::CApiOpenCL,
+    }
 	};
 
 
