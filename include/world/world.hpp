@@ -9,11 +9,15 @@
 #include <unordered_map>
 
 #include "../util/data/slotmap.hpp"
-#include "../util/data/typemap.hpp"
+#include "../util/data/flatmap.hpp"
 #include "spdlog/spdlog.h"
-
+#include <utility>
+#include <vector>
 
 class Component;
+class Universe;
+class World;
+class Entity;
 
 // class Entity {
 // private:
@@ -92,8 +96,10 @@ class Component;
 // };
 
 class ComponentStorage {
+private:
 	std::unordered_map<std::type_index, std::unique_ptr<ISlotMap>> components;
 
+public:
 	template <class T> 
 	GenIndex add(T t) {
 		auto type_index = std::type_index(typeid(T));
@@ -126,6 +132,17 @@ class ComponentStorage {
 		map.remove(index);
 	}
 
+	template <class T>
+	std::vector<std::reference_wrapper<T>> get_all_of_type() {
+		auto type_index = std::type_index(typeid(T));
+		SlotMap<T>& map = *this->components.at(type_index);
+		std::vector<std::reference_wrapper<T>> ret_val;
+		for (auto &component : map) {
+			ret_val.push_back(std::ref(component));
+		}
+		return ret_val;
+	}
+
 	// template <class T>
 	// void set(T t) {
 	// 	auto type_index = std::type_index(typeid(T));
@@ -137,23 +154,76 @@ class ComponentStorage {
 	// }
 };
 
-class Entity{
-	virtual ~Entity() = default;
-};
-
-
 class World {
 private:
 	SlotMap<Entity> entities;
-	ComponentStorage components;
 
 public:
-	
+	ComponentStorage components;
 };
 
+
 class Universe {
+public:
 	static SlotMap<World> worlds;
+
+	template <class T>
+	std::vector<std::reference_wrapper<T>> get_components_of_type() {
+		std::vector<std::reference_wrapper<T>> ret_val;
+		for (auto &world : this->worlds) {
+			auto& components = world.components.get_all_of_type<T>();
+			ret_val.insert(ret_val.end(), components.begin(), components.end());
+		}
+		return ret_val;
+	}
 };
+
+class Entity{
+private:
+	GenIndex world_index;
+	FlatMap<std::type_index, GenIndex> _components;
+	bool is_active;
+	virtual ~Entity() = default;
+public:
+	template <class T>
+	std::optional<std::reference_wrapper<T>> get() {
+		auto type_index = std::type_index(typeid(T));
+		auto index = this->_components.get(type_index);
+		if (index.has_value()) {
+			auto& world = Universe::worlds.get(world_index)->get();
+			return world.components.get<T>(index.value());
+		}
+		return std::nullopt;
+	}
+
+	template <class T>
+	void remove() {
+		auto type_index = std::type_index(typeid(T));
+		auto index = this->_components.get(type_index);
+		if (index.has_value()) {
+			auto& world = Universe::worlds.get(world_index)->get();
+			world.components.remove<T>(index);
+			this->_components.remove(type_index);
+		}
+	}
+
+	template <class T>
+	bool has() {
+		auto type_index = std::type_index(typeid(T));
+		return this->_components.has(type_index);
+	} 
+
+	template <class T>
+	void add(T t) {
+		auto type_index = std::type_index(typeid(T));
+		auto& world = Universe::worlds.get(world_index)->get();
+		auto index = world.components.add(t);
+		this->_components.set(type_index, index);
+	}
+};
+
+
+
 
 class Component {
 private:
