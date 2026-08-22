@@ -30,6 +30,11 @@ struct GenIndex {
 	std::uint32_t generation = 0;
 };
 
+class ISlotMap {
+public:
+	virtual ~ISlotMap() = default;
+};
+
 
 /**
 * A linear data store with the following perks:
@@ -42,7 +47,7 @@ struct GenIndex {
 * with spots either occupied or empty. It has some optimizations
 * too for finding spots, and faster iteration. 
 */
-template <class T> class SlotMap {
+template <class T> class SlotMap: public ISlotMap {
 private:
 	/**
 	* Holds a spot for an object which may be occupied or empty.
@@ -101,7 +106,7 @@ public:
 	*/
 	SlotMap(std::size_t capacity) : _slots(capacity), _iter_vector(capacity) {};
 
-	virtual ~SlotMap() = default;
+	~SlotMap() = default;
 
 	// Add, remove, get, set operations
 

@@ -102,12 +102,6 @@ struct Version {
 * Config for a Nicandra App/Game.
 */
 struct Config {
-
-	std::string application_name;
-
-	Version application_version;
-
-
 	const std::string engine_name = "Nicandra";
 	const Version engine_version = {
 		.major_verison = 0,

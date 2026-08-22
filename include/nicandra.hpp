@@ -3,4 +3,4 @@
 // External libraries
 #include "spdlog/spdlog.h"
 
-#include "core/app.hpp"
+#include "core/core.hpp"

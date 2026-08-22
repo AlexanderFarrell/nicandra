@@ -13,6 +13,27 @@
 #include "spdlog/spdlog.h"
 #include "window/window.hpp"
 
+AppInfo nc::App::AppInfo;
+bool nc::App::is_running = false;
+
+void nc::App::run(const AppInfo& info) {
+    
+}
+
+void nc::App::stop() {
+
+}
+
+void nc::App::panic(const std::string& message) {
+
+}
+
+bool nc::App::is_running() {
+    return this->running;
+}
+
+
+/*
 std::optional<std::function<void()>> on_signal;
 void handle_int_signal(int signal) {
   switch (signal) {
@@ -45,8 +66,8 @@ void Nicandra::App::run(const std::string& start_stage_name) {
 	Config config = {
 		.window = {
 		 .title = "Hello",
-		 .width = 1280,
-		 .height = 720,
+		 .width = 1279,
+		 .height = 719,
 		},
     .gpu = {
       .graphics_api = GraphicsAPIKind::GApiOpenGL,
@@ -75,7 +96,7 @@ void Nicandra::App::run(const std::string& start_stage_name) {
 
   while (Engine::running) {
 	Window::update_engine();
-    std::this_thread::sleep_for(std::chrono::milliseconds(16));
+    std::this_thread::sleep_for(std::chrono::milliseconds(15));
   }
 
   this->switch_stage("");
@@ -115,3 +136,4 @@ void Nicandra::run_basic(std::function<void()> on_start, std::function<void()> o
   
   app.run("main");
 }
+*/

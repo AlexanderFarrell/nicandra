@@ -6,11 +6,29 @@
 #include <unordered_map>
 #include <vector>
 #include "stage.hpp"
+#include "config.hpp"
 
 // Lifetime of the entire application.
 
 // TODO: Might get rid of this namespace, might be more annoying than anything.
-namespace Nicandra {
+namespace nc {
+
+enum AppRuntimeType {
+    ARTRealtime,
+    ARTEvent,
+    ARTServer,
+    ARTSingle,
+};
+
+struct AppInfo {
+    Config config;
+    std::string app_name;
+    Version app_version;
+    AppRuntimeType runtime_type = AppRuntimeType::ARTRealtime;
+
+    std::function<void()> on_start;
+    std::function<void()> on_end;
+};
 
 /**
 * Runs a Nicandra instance, with windows, graphics, input, etc. Defines what
@@ -18,51 +36,17 @@ namespace Nicandra {
 */
 class App {
 private:
-	/**
-	* Major states of the app. In a game, we might have: Menu, Gameplay,
-	* Editor, LoadingScreen, etc.
-	*/
-	std::unordered_map<std::string, Stage> stages;
-
-	/**
-	* A copy of the current stage being used.
-	*/
-	std::optional<Stage> current;
+    static AppInfo info;
+    static bool running;
 public:
-	/**
-	* Creates a new Nicandra App/Game with stages.
-	*/
-	App(const std::vector<Stage> stages);
-
-	~App() = default;
-
-	/**
-	* Adds a new stage. You can then switch to it with `switch_stage()`
-	*/
-	void add_stage(const Stage &stage);
-
 	/**
 	* Runs the game or app. Consumes the thread. Must be run by the main thread.
 	*/
-	void run(const std::string &start_stage_name);
+	static void run(const AppInfo& info);
+    static void stop();
+    static void panic(const std::string& message);
 
-	/**
-	* Switches to the given stage. Use this to switch to the Menu, Editor,
-	* Gameplay, etc.
-	*/
-    void switch_stage(const std::string &next_stage_name);
+    static bool is_running();
 };
-
-/**
-* Helper function to run Nicandra with a single function to call when it starts
-* (for setup). Call this from the main thread. Consumes the thread.
-*/
-void run_basic(std::function<void()> on_start);
-
-/**
-* Helper function to run Nicandra with a function to call on start and end
-* of running the app. Call this from the main thread. Consumes the thread.
-*/
-void run_basic(std::function<void()> on_start, std::function<void()> on_end);
 
 }
