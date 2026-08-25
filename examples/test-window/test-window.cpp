@@ -3,6 +3,7 @@
 #include <string>
 
 #include "core/app.hpp"
+#include "core/config.hpp"
 #include "spdlog/common.h"
 #include "spdlog/spdlog.h"
 #include "window/window.hpp"
@@ -41,6 +42,19 @@ int main() {
 	// We can set the debug
 	spdlog::set_level(spdlog::level::debug);
 
+	AppInfo info{
+		.app_name = "Test Window",
+		.app_version = Version{
+			.major_verison = 1,
+			.minor_version = 0,
+			.patch_version = 0,
+			.unit_version = 1,
+		},
+		.runtime_type = AppRuntimeType::ARTRealtime,
+		.on_start = start,
+		.on_end = end,
+	};
+
 	// Runs the engine with the given start and stop functions.
-  	Nicandra::run_basic(start, end);
+	App::run(info);
 }

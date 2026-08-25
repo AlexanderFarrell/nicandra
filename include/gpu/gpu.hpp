@@ -15,7 +15,7 @@
 #include <memory>
 #include <string>
 #include "util/result.hpp"
-#include "config/config.hpp"
+#include "../core/config.hpp"
 
 namespace nc::hw::gpu {
 

@@ -8,7 +8,7 @@
 #include <vector>
 #include "../util/data/slotmap.hpp"
 #include "../util/result.hpp"
-#include "config/config.hpp"
+#include "../core/config.hpp"
 
 /**
 * A portal into our app or game which has graphics, input, etc.

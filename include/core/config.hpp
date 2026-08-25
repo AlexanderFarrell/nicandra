@@ -96,6 +96,14 @@ struct Version {
 	uint32_t patch_version;
 	std::string prefix = "";
 	uint32_t unit_version;
+
+	std::string to_string() {
+		return this->prefix +
+			((this->prefix != "") ? "." : "") +
+			std::to_string(this->major_verison) + "." +
+			std::to_string(this->minor_version) + "." +
+			std::to_string(this->patch_version) + ".";
+	}
 };
 
 /**

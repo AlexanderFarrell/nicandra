@@ -1,18 +1,12 @@
 #pragma once
 
 #include <functional>
-#include <optional>
 #include <string>
-#include <unordered_map>
-#include <vector>
-#include "stage.hpp"
 #include "config.hpp"
 
 // Lifetime of the entire application.
 
 // TODO: Might get rid of this namespace, might be more annoying than anything.
-namespace nc {
-
 enum AppRuntimeType {
     ARTRealtime,
     ARTEvent,
@@ -44,9 +38,7 @@ public:
 	*/
 	static void run(const AppInfo& info);
     static void stop();
-    static void panic(const std::string& message);
+    [[noreturn]] static void panic(const std::string& message);
 
     static bool is_running();
 };
-
-}
