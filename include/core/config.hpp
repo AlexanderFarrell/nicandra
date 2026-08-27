@@ -97,7 +97,7 @@ struct Version {
 	std::string prefix = "";
 	uint32_t unit_version;
 
-	std::string to_string() {
+	std::string to_string() const {
 		return this->prefix +
 			((this->prefix != "") ? "." : "") +
 			std::to_string(this->major_verison) + "." +

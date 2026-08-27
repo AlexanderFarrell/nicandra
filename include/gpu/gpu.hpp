@@ -11,13 +11,10 @@
 // One other nice thing is we can decide what graphics API we are using
 // before we even initialize it. 
 
-#include <cstddef>
 #include <memory>
 #include <string>
 #include "util/result.hpp"
 #include "../core/config.hpp"
-
-namespace nc::hw::gpu {
 
 class GraphicsAPI;
 class ComputeAPI;
@@ -70,5 +67,4 @@ public:
 */
 class ComputeAPI {
 
-};
 };

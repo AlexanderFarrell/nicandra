@@ -1,7 +1,7 @@
 #include "window/window.hpp"
 #include "GLFW/glfw3.h"
+#include "core/app.hpp"
 #include "gpu/gpu.hpp"
-#include "core/engine.hpp"
 #include "spdlog/spdlog.h"
 #include "util/data/slotmap.hpp"
 #include "util/result.hpp"
@@ -196,7 +196,7 @@ void Window::update_engine() {
 
 			// If main window closes, we close the app
 			if (index.index == 0) {
-				Engine::running = false;
+				App::stop();
 			}
 		}
 		Window::_windows_to_remove.clear();

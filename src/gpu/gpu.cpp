@@ -1,10 +1,8 @@
 #include "gpu/gpu.hpp"
-#include <cstddef>
 #include <memory>
 #include <string>
 
 // Private headers
-#include "config/config.hpp"
 #include "opengl.hpp"
 #include "util/result.hpp"
 
