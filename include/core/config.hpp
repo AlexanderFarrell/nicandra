@@ -23,6 +23,8 @@ struct WindowConfig {
 
 	// The size up and down in pixels of the window.
 	std::uint32_t height = 720;
+
+	bool is_floating = false;
 };
 
 /**

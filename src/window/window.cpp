@@ -112,6 +112,12 @@ Result<GenIndex, std::string> Window::create(const WindowConfig &config) {
 		glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
 	}
 
+	if (config.is_floating) {
+		glfwWindowHint(GLFW_FLOATING, GLFW_TRUE);
+	} else {
+		glfwWindowHint(GLFW_FLOATING, GLFW_FALSE);
+	}
+
 	GLFWwindow *glfw_window = glfwCreateWindow(
 	    config.width, config.height, config.title.c_str(), nullptr, share);
 

@@ -16,12 +16,13 @@ void start() {
 	spdlog::info("Hello from Test Window");
 
 	// Spawn a bunch of windows
-	std::size_t window_count = 100;
+	std::size_t window_count = 5;
 	for (std::size_t i = 0; i < window_count; i++) {
 		WindowConfig config = {
 			.title = "Window " + std::to_string(i),
 			.width = 200,
 			.height = 100,
+			.is_floating = true,
 		};
 		Window::create(config);
 	}
