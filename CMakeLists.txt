@@ -11,6 +11,7 @@ file(GLOB_RECURSE ${PROJECT_NAME}_PRIVATE_HEADERS src/*.hpp)
 
 # Packages
 include(scripts/cmake/CPM.cmake)
+include(scripts/cmake/opengl.cmake)
 
 CPMAddPackage(
     NAME json
@@ -28,6 +29,12 @@ CPMAddPackage(
     NAME spdlog
     GITHUB_REPOSITORY gabime/spdlog
     GIT_TAG v1.17.0
+)
+
+CPMAddPackage(
+        NAME glm
+        GITHUB_REPOSITORY g-truc/glm
+        GIT_TAG 1.0.3
 )
 
 find_package(Vulkan)
@@ -58,5 +65,9 @@ target_link_libraries(${PROJECT_NAME} PRIVATE nlohmann_json)
 target_link_libraries(${PROJECT_NAME} PUBLIC glfw)
 target_link_libraries(${PROJECT_NAME} PUBLIC spdlog)
 target_link_libraries(${PROJECT_NAME} PUBLIC Vulkan::Vulkan)
+target_link_libraries(${PROJECT_NAME} PUBLIC glm)
+
+#OpenGL
+link_opengl(${PROJECT_NAME})
 
 add_subdirectory(examples)

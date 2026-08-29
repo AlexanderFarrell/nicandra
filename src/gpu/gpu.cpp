@@ -3,7 +3,7 @@
 #include <string>
 
 // Private headers
-#include "opengl.hpp"
+#include "opengl/opengl.hpp"
 #include "util/result.hpp"
 
 std::unique_ptr<GraphicsAPI> GPU::graphics = nullptr;

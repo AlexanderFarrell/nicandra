@@ -9,6 +9,7 @@
 #include "../util/data/slotmap.hpp"
 #include "../util/result.hpp"
 #include "../core/config.hpp"
+#include "gpu/renderer.hpp"
 
 /**
 * A portal into our app or game which has graphics, input, etc.
@@ -31,8 +32,11 @@ private:
 	*/
 	GenIndex _index;
 
+	std::unique_ptr<Renderer> _renderer = nullptr;
+
 	// Private. We do not allow the creation of windows outside the Window::Create() function
 	Window(const WindowConfig& config, GLFWwindow* glfw_window);
+
 
 	// Static members
 	/**
@@ -44,6 +48,7 @@ private:
 	* Internally used when windows close. 
 	*/
 	static std::vector<GenIndex> _windows_to_remove;
+
 
 public:
 	virtual ~Window();

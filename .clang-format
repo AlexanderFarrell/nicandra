@@ -1,10 +1,10 @@
 
 IndentWidth: 4
 MaxEmptyLinesToKeep: 16
-KeepEmptyLines:
-    AtEndOfFile: true
-    AtStartOfBlock: true
-    AtStartOfFile: true
+#KeepEmptyLines:
+#    AtEndOfFile: true
+#    AtStartOfBlock: true
+#    AtStartOfFile: true
 IncludeBlocks: Preserve
 EmptyLineAfterAccessModifier: Leave
 EmptyLineBeforeAccessModifier: Leave

@@ -13,9 +13,10 @@
 AppInfo App::info;
 bool App::running;
 
-void handle_int_signal(int signal) {
+void handle_signal(int signal) {
   switch (signal) {
-    case SIGINT:
+  case SIGINT: // User request to stop gracefully
+  case SIGTERM: // General request to stop gracefully, such as from another program.
       App::stop();
       break;
     default:
@@ -24,7 +25,8 @@ void handle_int_signal(int signal) {
 }
 
 void App::run(const AppInfo &info) {
-  signal(SIGINT, handle_int_signal);
+  signal(SIGINT, handle_signal);
+  signal(SIGTERM, handle_signal);
 
   App::running = true;
   GPU::setup_engine(info.config);
@@ -35,13 +37,16 @@ void App::run(const AppInfo &info) {
   info.on_start();
 
   while (App::running) {
-    std::this_thread::sleep_for(std::chrono::milliseconds(15));
+	  Window::update_engine();
+	  std::this_thread::sleep_for(std::chrono::milliseconds(15));
   }
 
   info.on_end();
 
   Window::breakdown_engine();
   GPU::breakdown_engine();
+
+  spdlog::debug("Stopped " + info.app_name);
 }
 
 void App::stop() {

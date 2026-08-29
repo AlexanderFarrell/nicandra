@@ -18,9 +18,16 @@ std::vector<GenIndex> Window::_windows_to_remove;
 Window::Window(const WindowConfig &config, GLFWwindow* glfw_window) {
 	this->_config = config;
 	this->_glfw_window = glfw_window;
+	this->_renderer = GPU::graphics->create_renderer(config.width, config.height);
+	this->_renderer->setup();
+
 }
 
 Window::~Window() {
+	if (this->_renderer) {
+		this->_renderer->breakdown();
+	}
+
 	if (this->_glfw_window) {
 		glfwDestroyWindow(this->_glfw_window);
 	}
@@ -31,11 +38,13 @@ Window::Window(Window &&other) {
 
 	// Moves cause the other to no longer own the glfw_window
 	this->_glfw_window = other._glfw_window;
+	this->_renderer = std::move(other._renderer);
 	other._glfw_window = nullptr;
 }
 
 Window Window::operator=(Window &&other) {
 	Window window(other._config, other._glfw_window);
+	window._renderer = std::move(other._renderer);
 
 	// Assignment move causes the other to no longer own the glfw_window
 	other._glfw_window = nullptr;
@@ -101,12 +110,18 @@ Result<GenIndex, std::string> Window::create(const WindowConfig &config) {
 	if (GPU::graphics->uses_opengl_window_context()) {
 		glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_API);
 
+
 		// Safely get the main window (we could be creating the main window, so
 		// ignore if it doesn't exist). If we are making the main window now, we
 		// keep at nullptr to let an OpenGL context be created.
 		auto main_window = Window::main_window();
 		if (main_window.has_value()) {
 			share = main_window.value().get().get_glfw_window();
+		} else {
+			glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+			glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
+			glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+			glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 		}
 	} else {
 		glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
@@ -125,6 +140,10 @@ Result<GenIndex, std::string> Window::create(const WindowConfig &config) {
 		return Result<GenIndex, std::string>::with_error(
 		    "Failed to create window"
 		);
+	}
+
+	if (GPU::graphics->uses_opengl_window_context() && !Window::main_window().has_value()) {
+		glfwMakeContextCurrent(glfw_window);
 	}
 
 	Window window(config, glfw_window);
@@ -194,6 +213,8 @@ void Window::update_engine() {
 		if (glfwWindowShouldClose(window._glfw_window)) {
 			Window::_windows_to_remove.push_back(window._index);
 		}
+		window._renderer->render();
+		glfwSwapBuffers(window._glfw_window);
 	}
 	glfwPollEvents();
 	if (Window::_windows_to_remove.size() > 0) {

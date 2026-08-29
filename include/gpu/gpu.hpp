@@ -9,12 +9,13 @@
 // Similarly, this gives us a nice API for accessing the graphics card.
 //
 // One other nice thing is we can decide what graphics API we are using
-// before we even initialize it. 
+// before we even initialize it.
 
+#include "../core/config.hpp"
+#include "renderer.hpp"
+#include "util/result.hpp"
 #include <memory>
 #include <string>
-#include "util/result.hpp"
-#include "../core/config.hpp"
 
 class GraphicsAPI;
 class ComputeAPI;
@@ -59,6 +60,8 @@ public:
 	* otherwise. Basically it's true only for OpenGL.
 	*/
 	virtual bool uses_opengl_window_context() = 0;
+
+	virtual std::unique_ptr<Renderer> create_renderer(uint16_t width, uint16_t height) = 0;
 };
 
 /**
