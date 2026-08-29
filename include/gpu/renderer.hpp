@@ -3,7 +3,7 @@
 #include <memory>
 #include <glm/glm.hpp>
 #include <cstdint>
-
+#include "GLFW/glfw3.h"
 
 class Renderer {
 protected:
@@ -29,7 +29,7 @@ public:
 	/**
 	 * Draws a single frame, running the entire renderer pipeline for clear, drawing objects, etc.
 	 */
-	virtual void render() = 0;
+	virtual void render(GLFWwindow* window) = 0;
 
 	friend class GraphicsAPI;
 };

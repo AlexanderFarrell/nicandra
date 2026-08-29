@@ -1,5 +1,5 @@
 #include "renderer_opengl.hpp"
-#include <glad/glad.h>
+#include "gl.hpp"
 #include <GLFW/glfw3.h>
 
 static bool glad_loaded = false;
@@ -14,8 +14,9 @@ void OpenGLRenderer::setup() {
 void OpenGLRenderer::breakdown() {
 }
 
-void OpenGLRenderer::render() {
+void OpenGLRenderer::render(GLFWwindow* window) {
 	// Beginning Renderer
+	glfwMakeContextCurrent(window);
 	glViewport(0, 0, this->width, this->height);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_BLEND);

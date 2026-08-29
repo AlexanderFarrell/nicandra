@@ -5,12 +5,11 @@
 #include "spdlog/spdlog.h"
 #include "util/data/slotmap.hpp"
 #include "util/result.hpp"
-#include <cstddef>
-#include <cstdlib>
 #include <functional>
 #include <optional>
 #include <string>
 #include <vector>
+#include "../gpu/opengl/gl.hpp"
 
 SlotMap<Window> Window::_active_windows;
 std::vector<GenIndex> Window::_windows_to_remove;
@@ -213,7 +212,7 @@ void Window::update_engine() {
 		if (glfwWindowShouldClose(window._glfw_window)) {
 			Window::_windows_to_remove.push_back(window._index);
 		}
-		window._renderer->render();
+		window._renderer->render(window._glfw_window);
 		glfwSwapBuffers(window._glfw_window);
 	}
 	glfwPollEvents();
