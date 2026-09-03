@@ -12,13 +12,11 @@
 // before we even initialize it.
 
 #include "../core/config.hpp"
-#include "renderer.hpp"
 #include "util/result.hpp"
+#include "api.hpp"
 #include <memory>
 #include <string>
 
-class GraphicsAPI;
-class ComputeAPI;
 
 /**
 * Handles calling the graphics card.
@@ -46,28 +44,4 @@ public:
 	* Called by the App to breakdown (gracefully) the GPU resources.
 	*/
 	static void breakdown_engine();
-};
-
-/**
-* An abstraction over a graphics API such as OpenGL, Vulkan, DirectX or Metal.
-*/
-class GraphicsAPI {
-public:
-	virtual ~GraphicsAPI();
-
-	/**
-	* Returns true if we should let GLFW make an OpenGL context, false
-	* otherwise. Basically it's true only for OpenGL.
-	*/
-	virtual bool uses_opengl_window_context() = 0;
-
-	virtual std::unique_ptr<Renderer> create_renderer(uint16_t width, uint16_t height) = 0;
-};
-
-/**
-* An abstraction over a GPU general compute API, such as OpenCL, CUDA, Vulkan,
-* DirectX12, Metal, etc.
-*/
-class ComputeAPI {
-
 };

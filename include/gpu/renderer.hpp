@@ -1,9 +1,11 @@
 #pragma once
 
-#include <memory>
-#include <glm/glm.hpp>
-#include <cstdint>
+#include "../util/data/slotmap.hpp"
 #include "GLFW/glfw3.h"
+#include "drawable.hpp"
+#include <cstdint>
+#include <glm/glm.hpp>
+#include <memory>
 
 class Renderer {
 protected:
@@ -15,6 +17,8 @@ protected:
 	Renderer(uint16_t width, uint16_t height);
 
 public:
+	SlotMap<Drawable> drawables;
+
 	virtual ~Renderer() = default;
 	/**
 	 * Initializes the renderer. Override this to implement behavior per graphics API.

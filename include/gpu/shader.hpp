@@ -15,10 +15,17 @@ struct ShaderSource {
 	std::string source;
 };
 
+
+
 class Shader {
 	std::vector<ShaderSource> sources;
+	GenIndex gpu_shader;
 public:
-	Shader();
-	Shader(const std::vector<ShaderSource> &sources);
-	virtual ~Shader();
+	Shader() = default;
+	explicit Shader(std::vector<ShaderSource> sources): sources(std::move(sources)) {}
+	virtual ~Shader() = default;
+};
+
+class GPUShader {
+	virtual void init(const Shader& shader) = 0;
 };

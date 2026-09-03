@@ -12,6 +12,7 @@ public:
 	uint16_t width;
 	uint16_t height;
 	std::vector<uint8_t> data;
+	GenIndex gpu_texture;
 
 private:
 	uint8_t flags;
@@ -24,6 +25,9 @@ public:
 	static AssetID create(uint16_t width, uint16_t height, uint8_t flags);
 	static AssetID load(const std::string& filename);
 	static AssetID create_from_color(const glm::vec3& color);
-
 	void buffer();
+};
+
+class GPUTexture {
+	virtual void buffer(const Texture& texture) = 0;
 };

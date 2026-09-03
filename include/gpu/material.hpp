@@ -11,6 +11,6 @@ private:
 	std::vector<Uniform> uniforms;
 	std::vector<AssetID> textures;
 public:
-	explicit Material(AssetID shader);
-	void prepare();
+	explicit Material(AssetID shader): shader(shader) {}
+	virtual void prepare() = 0;
 };

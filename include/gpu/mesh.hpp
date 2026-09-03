@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include "assets/types.hpp"
 
 class VertexBuffer {
 	std::vector<float> data;
@@ -8,7 +9,7 @@ class VertexBuffer {
 
 	VertexBuffer() = default;
 	explicit VertexBuffer(int elements_per_vertex): elements_per_vertex(elements_per_vertex) {}
-	VertexBuffer(int elemenets_per_vertex, std::vector<float> data): elements_per_vertex(elemenets_per_vertex), data(std::move(data)) {}
+	VertexBuffer(int elements_per_vertex, std::vector<float> data): data(std::move(data)), elements_per_vertex(elements_per_vertex) {}
 };
 
 class IndexBuffer {
@@ -24,10 +25,14 @@ public:
 	std::vector<VertexBuffer> vertex_buffers;
 	IndexBuffer index_buffer;
 private:
+	GenIndex gpu_mesh_id;
 	Mesh() = default;
 public:
-	static Mesh* create();
-	static Mesh* create_rectangle();
-	void prepare();
-	void refresh();
+	static AssetID create();
+	static AssetID create_rectangle();
+};
+
+class GPUMesh {
+	virtual void prepare(const Mesh& mesh) = 0;
+	virtual void refresh(const Mesh& mesh) = 0;
 };
