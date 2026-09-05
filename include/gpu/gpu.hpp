@@ -16,6 +16,7 @@
 #include "api.hpp"
 #include <memory>
 #include <string>
+#include <expected>
 
 
 /**
@@ -33,12 +34,12 @@ public:
 	*/
 	static std::unique_ptr<ComputeAPI> compute;
 
-	static Result<void, std::string> switch_to_api(const GraphicsAPIKind kind);
+	static std::expected<void, std::string> switch_to_api(const GraphicsAPIKind kind);
 
 	/**
 	* Called by App to initialize a graphics and optionally compute GPU APIs. 
 	*/
-	static Result<void, std::string> setup_engine(const Config &config);
+	static std::expected<void, std::string> setup_engine(const Config &config);
 
 	/**
 	* Called by the App to breakdown (gracefully) the GPU resources.

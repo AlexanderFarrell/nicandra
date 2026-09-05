@@ -94,7 +94,7 @@ void Window::close() {
 
 // Static methods
 
-Result<GenIndex, std::string> Window::create(const WindowConfig &config) {
+std::expected<GenIndex, std::string> Window::create(const WindowConfig &config) {
 	// If in OpenGL mode, two things should happen:
 	//  1. Let GLFW create the OpenGL Context.
 	//  2. Share this OpenGL context (so things like gpu memory are common among
@@ -136,9 +136,7 @@ Result<GenIndex, std::string> Window::create(const WindowConfig &config) {
 	    config.width, config.height, config.title.c_str(), nullptr, share);
 
 	if (!glfw_window) {
-		return Result<GenIndex, std::string>::with_error(
-		    "Failed to create window"
-		);
+		return std::unexpected("Failed to create window");
 	}
 
 	if (GPU::graphics->uses_opengl_window_context() && !Window::main_window().has_value()) {
@@ -151,7 +149,7 @@ Result<GenIndex, std::string> Window::create(const WindowConfig &config) {
 	// Add the index to the window
 	Window::_active_windows.get(index)->get()._index = index;
 
-	return Result<GenIndex, std::string>::with_ok(index);
+	return {};
 }
 
 void Window::destroy(const std::size_t index) {
@@ -182,12 +180,10 @@ std::size_t Window::get_active_window_count() {
 	return Window::_active_windows.size_active();
 }
 
-Result<void, std::string> Window::setup_engine(const Config& config) {
+std::expected<void, std::string> Window::setup_engine(const Config& config) {
 	// Initialize GLFW
 	if (!glfwInit()) {
-		return Result<void, std::string>::with_error(
-			"Failed to initialize GLFW library"
-		);
+		return std::unexpected("Failed to initialize GLFW library");
 	}
 
 	// Set error handler
@@ -199,12 +195,10 @@ Result<void, std::string> Window::setup_engine(const Config& config) {
 	});
 
 	auto result = Window::create(config.window);
-	if (result.is_err()) {
-		return Result<void, std::string>::with_error(
-		    result.get_error()
-		);
+	if (!result.has_value()) {
+		return std::unexpected(result.error());
 	};
-	return Result<void, std::string>::with_ok();
+	return {};
 }
 
 void Window::update_engine() {

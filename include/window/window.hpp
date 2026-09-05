@@ -4,10 +4,11 @@
 #include <cstdint>
 #include <functional>
 #include <optional>
+#include <expected>
+
 #include <GLFW/glfw3.h>
 #include <vector>
 #include "../util/data/slotmap.hpp"
-#include "../util/result.hpp"
 #include "../core/config.hpp"
 #include "gpu/renderer.hpp"
 
@@ -113,7 +114,7 @@ public:
 	/**
 	* Creates a new window. Returns the GenIndex if successful, or error string if not.
 	*/
-	static Result<GenIndex, std::string> create(const WindowConfig &config);
+	static std::expected<GenIndex, std::string> create(const WindowConfig &config);
 
 	/**
 	* Closes and destroys the given window. Safer to pass a GenIndex.
@@ -150,7 +151,7 @@ public:
 	/**
 	* Called by the engine to setup GLFW.
 	*/
-	static Result<void, std::string> setup_engine(const Config &config);
+	static std::expected<void, std::string> setup_engine(const Config &config);
 
 	/**
 	* Called by the engine to update all windows and poll events.

@@ -24,7 +24,10 @@ void start() {
 			.height = 100,
 			.is_floating = true,
 		};
-		Window::create(config);
+		auto result = Window::create(config);
+		if (!result.has_value()) {
+			spdlog::error("Failed to make window");
+		}
 	}
 }
 

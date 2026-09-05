@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <expected>
 #include "assets/types.hpp"
 
 class VertexBuffer {
@@ -33,6 +34,8 @@ public:
 };
 
 class GPUMesh {
-	virtual void prepare(const Mesh& mesh) = 0;
-	virtual void refresh(const Mesh& mesh) = 0;
+	virtual std::expected<void, std::string> prepare(const Mesh& mesh) = 0;
+	virtual std::expected<void, std::string> refresh(const Mesh& mesh) = 0;
+	virtual void draw() = 0;
+	virtual void destroy() = 0;
 };

@@ -1,5 +1,5 @@
-#include "gpu/vulkan/vulkan_api.hpp"
 #include "core/app.hpp"
+#include "vulkan_api.hpp"
 #include "core/config.hpp"
 #include "util/result.hpp"
 #include <memory>
