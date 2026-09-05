@@ -1,7 +1,8 @@
 #pragma once
 
-#include "gpu/gpu.hpp"
+#if VULKAN_SUPPORTED
 #include "core/app.hpp"
+#include "gpu/gpu.hpp"
 #include "util/result.hpp"
 #include "vulkan/vulkan.hpp"
 #include "vulkan/vulkan_raii.hpp"
@@ -9,12 +10,14 @@
 #include <vector>
 
 
-class VulkanGraphicsAPI: public GraphicsAPI {
+class VulkanGraphicsAPI : public GraphicsAPI {
 private:
 	vk::raii::Context context;
 	vk::raii::Instance instance;
 	std::vector<std::string> supported_instance_extensions;
-	static std::expected<std::unique_ptr<VulkanGraphicsAPI>, std::string> create(AppInfo& info);
+	static std::expected<std::unique_ptr<VulkanGraphicsAPI>, std::string>
+	create(AppInfo &info);
 public:
 	bool uses_opengl_window_context() override;
 };
+#endif

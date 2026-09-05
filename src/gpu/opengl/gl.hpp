@@ -1,4 +1,7 @@
 #pragma once
+
+#if OPENGL_SUPPORTED
+
 #include <source_location>
 
 #if defined(__APPLE__)
@@ -7,5 +10,9 @@
 #elif defined(__linux__)
 #include <glad/glad.h>
 
-void check_for_errors_gl(const std::source_location& location = std::source_location::current());
+#endif
+
+void check_for_errors_gl(
+    const std::source_location &location = std::source_location::current());
+
 #endif

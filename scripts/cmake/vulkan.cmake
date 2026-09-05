@@ -1,0 +1,11 @@
+cmake_minimum_required(VERSION 3.25)
+
+function(link_vulkan target)
+    find_package(Vulkan)
+    if(Vulkan_FOUND)
+        target_link_libraries(${target} PUBLIC Vulkan::Vulkan)
+        target_compile_definitions(${target} PUBLIC VULKAN_SUPPORTED=1)
+    else()
+        target_compile_definitions(${target} PUBLIC VULKAN_SUPPORTED=0)
+    endif()
+endfunction()

@@ -9,8 +9,8 @@
 #include "window/window.hpp"
 
 /**
-* Entrypoint once the engine starts.
-*/
+ * Entrypoint once the engine starts.
+ */
 void start() {
 	// Test that starting works.
 	spdlog::info("Hello from Test Window");
@@ -19,12 +19,12 @@ void start() {
 	std::size_t window_count = 5;
 	for (std::size_t i = 0; i < window_count; i++) {
 		WindowConfig config = {
-			.title = "Window " + std::to_string(i),
-			.width = 200,
-			.height = 100,
-			.is_floating = true,
+		    .title = "Window " + std::to_string(i),
+		    .width = 200,
+		    .height = 100,
+		    .is_floating = true,
 		};
-		auto result = Window::create(config);
+		auto result = WindowManager::create(config);
 		if (!result.has_value()) {
 			spdlog::error("Failed to make window");
 		}
@@ -32,31 +32,32 @@ void start() {
 }
 
 /**
-* Exit point when the engine gracefully shuts down.
-*/
+ * Exit point when the engine gracefully shuts down.
+ */
 void end() {
 	// Test that ending works.
 	spdlog::info("Goodbye from Test Window");
 }
 
 /**
-* Entry point for the app. 
-*/
+ * Entry point for the app.
+ */
 int main() {
 	// We can set the debug
 	spdlog::set_level(spdlog::level::debug);
 
 	AppInfo info{
-		.app_name = "Test Window",
-		.app_version = Version{
-			.major_verison = 1,
-			.minor_version = 0,
-			.patch_version = 0,
-			.unit_version = 1,
-		},
-		.runtime_type = AppRuntimeType::ARTRealtime,
-		.on_start = start,
-		.on_end = end,
+	    .app_name = "Test Window",
+	    .app_version =
+	        Version{
+	            .major_verison = 1,
+	            .minor_version = 0,
+	            .patch_version = 0,
+	            .unit_version = 1,
+	        },
+	    .runtime_type = AppRuntimeType::ARTRealtime,
+	    .on_start = start,
+	    .on_end = end,
 	};
 
 	// Runs the engine with the given start and stop functions.

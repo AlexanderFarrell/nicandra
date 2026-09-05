@@ -12,6 +12,7 @@ file(GLOB_RECURSE ${PROJECT_NAME}_PRIVATE_HEADERS src/*.hpp)
 # Packages
 include(scripts/cmake/CPM.cmake)
 include(scripts/cmake/opengl.cmake)
+include(scripts/cmake/vulkan.cmake)
 
 CPMAddPackage(
     NAME json
@@ -37,7 +38,6 @@ CPMAddPackage(
         GIT_TAG 1.0.3
 )
 
-find_package(Vulkan)
 
 
 # From this https://www.studyplan.dev/cmake/cmake-doxygen-documentation
@@ -64,12 +64,13 @@ target_include_directories(${PROJECT_NAME} PUBLIC include)
 target_link_libraries(${PROJECT_NAME} PRIVATE nlohmann_json)
 target_link_libraries(${PROJECT_NAME} PUBLIC glfw)
 target_link_libraries(${PROJECT_NAME} PUBLIC spdlog)
-target_link_libraries(${PROJECT_NAME} PUBLIC Vulkan::Vulkan)
+
 target_link_libraries(${PROJECT_NAME} PUBLIC glm)
 
 target_compile_definitions(${PROJECT_NAME} PUBLIC GLFW_INCLUDE_NONE)
 
 #OpenGL
 link_opengl(${PROJECT_NAME})
+link_vulkan(${PROJECT_NAME})
 
 add_subdirectory(examples)

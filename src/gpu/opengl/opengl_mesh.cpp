@@ -1,6 +1,6 @@
 #include "opengl_mesh.hpp"
-#include <vector>
 #include "gl.hpp"
+#include <vector>
 
 std::expected<void, std::string> OpenGLMesh::prepare(const Mesh &mesh) {
 	if (mesh.vertex_buffers.empty()) {
@@ -13,27 +13,21 @@ std::expected<void, std::string> OpenGLMesh::prepare(const Mesh &mesh) {
 	glBindVertexArray(vao);
 	check_for_errors_gl();
 
-	this->vertex_buffer_objects.resize()
+	this->vertex_buffer_objects.resize(mesh.vertex_buffers.size());
 
 	for (std::size_t i = 0; i < mesh.vertex_buffers.size(); ++i) {
-		VertexBuffer& vertex_buffer = mesh.vertex_buffers[i];
+		const VertexBuffer &vertex_buffer = mesh.vertex_buffers[i];
 		GLuint vbo;
 		GLsizeiptr size = vertex_buffer.data.size() * sizeof(float);
 		glGenBuffers(1, &vbo);
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
-		glBufferData(GL_ARRAY_BUFFER, size, vertex_buffer.data.data(), GL_STATIC_DRAW);
-
+		glBufferData(GL_ARRAY_BUFFER, size, vertex_buffer.data.data(),
+		             GL_STATIC_DRAW);
 	}
 }
 
-std::expected<void, std::string> OpenGLMesh::refresh(const Mesh &mesh) {
+std::expected<void, std::string> OpenGLMesh::refresh(const Mesh &mesh) {}
 
-}
+void OpenGLMesh::draw() {}
 
-void OpenGLMesh::draw() {
-
-}
-
-void OpenGLMesh::destroy() {
-
-}
+void OpenGLMesh::destroy() {}
