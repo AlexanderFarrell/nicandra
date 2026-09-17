@@ -1,19 +1,14 @@
 #include "gpu/texture.hpp"
 #include "assets/assets.hpp"
 
-Texture::Texture(uint16_t width, uint16_t height, uint8_t flags) {
+Texture::Texture(uint16_t width, uint16_t height) {
 	this->width = width;
 	this->height = height;
-	this->flags = flags;
 }
 
-Texture::Texture(const glm::vec3 &color) {
+Texture::Texture(const glm::vec3 &color) {}
 
-}
-
-Texture::Texture(const std::string &filename) {
-
-}
+Texture::Texture(const std::string &filename) {}
 
 AssetID Texture::create(uint16_t width, uint16_t height, uint8_t flags) {
 	throw std::runtime_error("Not implemented");

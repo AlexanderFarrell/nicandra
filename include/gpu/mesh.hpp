@@ -40,7 +40,6 @@ public:
 class GPUMesh {
 public:
 	virtual std::expected<void, std::string> prepare(const Mesh &mesh) = 0;
-	virtual std::expected<void, std::string> refresh(const Mesh &mesh) = 0;
 	virtual void draw() = 0;
 	virtual void destroy() = 0;
 };

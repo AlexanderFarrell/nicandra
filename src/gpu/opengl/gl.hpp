@@ -7,6 +7,8 @@
 #if defined(__APPLE__)
 #define GL_SILENCE_DEPRECATION
 #include "OpenGL/gl3.h"
+#include "OpenGL/gl3ext.h"
+#include "OpenGL/gltypes.h"
 #elif defined(__linux__)
 #include <glad/glad.h>
 
