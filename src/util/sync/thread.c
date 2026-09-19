@@ -1,7 +1,7 @@
-#include "util/sync/thread.h"
+#include "platform/sync/thread.h"
 #include "time.h"
 
-void nc_sleep_milliseconds(uint32_t milliseconds) {
+void nc_thread_sleep_milliseconds(uint32_t milliseconds) {
     struct timespec res;
     struct timespec req = {
         .tv_sec = milliseconds / 1000,

@@ -1,6 +1,6 @@
 #include "core/app.h"
 #include "util/log.h"
-#include "util/sync/thread.h"
+#include "platform/sync/thread.h"
 #include <stdlib.h>
 #include <signal.h>
 
@@ -23,7 +23,7 @@ void nc_app_run(AppInfo app_info, VoidFunc on_start, VoidFunc on_end) {
     nc_app_initialize();
 
     while (nc_app_is_running()) {
-        nc_sleep_milliseconds(17);
+        nc_thread_sleep_milliseconds(17);
     }
 
     nc_app_breakdown();

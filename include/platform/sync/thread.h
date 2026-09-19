@@ -11,6 +11,6 @@ struct Thread {
 
 Thread nc_thread_spawn();
 
-void nc_sleep_milliseconds(u32 milliseconds);
+void nc_thread_sleep_milliseconds(u32 milliseconds);
 
 #endif

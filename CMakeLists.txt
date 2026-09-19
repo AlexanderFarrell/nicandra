@@ -80,3 +80,4 @@ target_link_libraries(${PROJECT_NAME} PRIVATE Threads::Threads)
 # link_vulkan(${PROJECT_NAME})
 
 add_subdirectory(examples)
+add_subdirectory(test)

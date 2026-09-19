@@ -1,0 +1,2 @@
+add_subdirectory(nicandra_test)
+add_subdirectory(data)

@@ -4,11 +4,11 @@
 #include <nicandra.h>
 
 static void start() {
-    nc_log_info("Starting!");
+    nc_log_info("Starting!\n");
 }
 
 static void end() {
-    nc_log_info("Ending!");
+    nc_log_info("Ending!\n");
 }
 
 int main() {
