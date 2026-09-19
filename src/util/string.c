@@ -7,6 +7,12 @@
 
 #define STRING_MAX 5000000
 
+String nc_string_make(const char * c_string) {
+    String retval;
+    nc_string_init(&retval, c_string);
+    return retval;
+}
+
 void nc_string_init(String *string, const char *c_string) {
     string->length = strnlen(c_string, STRING_MAX);
     string->content = malloc(string->length + 1);

@@ -14,7 +14,7 @@
 #include <stdarg.h>
 #include <stdio.h>
 
-inline void log_verbose(const char * format, ...) {
+inline void nc_log_verbose(const char * format, ...) {
 #ifdef NICANDRA_LOG_VERBOSE_ENABLED
     va_list args;
     va_start(args, format);
@@ -24,7 +24,7 @@ inline void log_verbose(const char * format, ...) {
 #endif
 }
 
-inline void log_info(const char * format, ...) {
+inline void nc_log_info(const char * format, ...) {
     va_list args;
     va_start(args, format);
     printf("[Info] ");
@@ -32,7 +32,7 @@ inline void log_info(const char * format, ...) {
     va_end(args);
 }
 
-inline void log_warn(const char * format, ...) {
+inline void nc_log_warn(const char * format, ...) {
     va_list args;
     va_start(args, format);
     printf("%s[Warn] ", C_YELLOW);
@@ -41,7 +41,7 @@ inline void log_warn(const char * format, ...) {
     va_end(args);
 }
 
-inline void log_error(const char * format, ...) {
+inline void nc_log_error(const char * format, ...) {
     va_list args;
     va_start(args, format);
     fprintf(stderr, "%s[Error] ", C_RED);

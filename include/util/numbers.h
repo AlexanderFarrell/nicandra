@@ -15,4 +15,10 @@
 #define i32 int32_t
 #define i64 int64_t
 
+typedef enum Bool Bool;
+enum Bool {
+    TRUE = 1,
+    FALSE = 0,
+};
+
 #endif

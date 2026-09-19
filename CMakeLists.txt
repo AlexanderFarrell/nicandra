@@ -62,6 +62,9 @@ endif()
 
 add_library(${PROJECT_NAME} STATIC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_HEADERS} ${${PROJECT_NAME}_PRIVATE_HEADERS})
 target_include_directories(${PROJECT_NAME} PUBLIC include)
+
+find_package(Threads REQUIRED)
+target_link_libraries(${PROJECT_NAME} PRIVATE Threads::Threads)
 #target_compile_options(${PROJECT_NAME} PRIVATE -Werror -Wall -Wextra)
 
 # target_link_libraries(${PROJECT_NAME} PRIVATE nlohmann_json)

@@ -12,6 +12,8 @@ struct String {
     size_t length;
 };
 
+String nc_string_make(const char * c_string);
+
 void nc_string_init(String * string, const char * c_string);
 
 void nc_string_deinit(String * string);
